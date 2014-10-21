@@ -24,7 +24,7 @@ Rubens Machado - rubens.campos.machado@gmail.com
 Requirements
 ------------
 
-This toolbox requires OpenCV, NumPy, gvgen, and dot for rendering graphs. In fact, you only
+This toolbox requires SWIG, OpenCV, NumPy, gvgen, and dot for rendering graphs. In fact, you only
 need gvgen and dot if you intend to draw graphs.
 
 
@@ -37,7 +37,7 @@ http://adessowiki.fee.unicamp.br/adesso/wiki/iamxt/view/
 
 Install
 -------
-Download the zip file, unzip it and type on terminal:
+Download the zip file, unzip it, go to the toolbox folder and type on terminal:
 sudo python setup.py install
 
 
