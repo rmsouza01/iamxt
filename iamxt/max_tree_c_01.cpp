@@ -324,3 +324,36 @@ void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned char *flat_im
    node_array2[10] = node_array2[10]/2;
    delete[] area;
 }
+
+void compute_area_c(int h_S, int *S, int h_parent, int *parent, int h_area, int *area){
+    int p,q,p_root;
+    p_root = S[0];
+
+    for (int i = h_S -1; i>-1; i--){
+        p = S[i];
+        if (p != p_root){
+            q = parent[p];
+            area[q]+= area[p];
+            }
+        }
+    }
+
+void direct_filter_c(double lambda, int h_S, int *S, int h_parent, int *parent, int h_img,
+ unsigned char *flat_img, int h_out, unsigned char *out, int h_attr, double *attr ){
+    int p,q,p_root;
+    p_root = S[0];
+    if (attr[p_root] < lambda)
+        out[p_root] = 0;
+    else
+        out[p_root] = flat_img[p_root];
+    for (int i = 0; i < h_S; i++){
+        p = S[i];
+        q = parent[p];
+        if (flat_img[q] == flat_img[p])
+            out[p] = out[q];
+        else if (attr[p] < lambda)
+            out[p] = out[q];
+        else
+            out[p] = flat_img[p];
+    }
+}

@@ -93,14 +93,6 @@ def union_find3d_c(*args, **kwargs):
 def computeNodeArray3d_c(*args, **kwargs):
   """computeNodeArray3d_c(int DIM1, int DIM1, int DIM1, int DIM1)"""
   return _max_tree_c_01.computeNodeArray3d_c(*args, **kwargs)
-
-def compute_area_c(*args, **kwargs):
-  """compute_area_c(int DIM1, int DIM1, int DIM1)"""
-  return _max_tree_c_01.compute_area_c(*args, **kwargs)
-
-def direct_filter_c(*args, **kwargs):
-  """direct_filter_c(double _lambda, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1)"""
-  return _max_tree_c_01.direct_filter_c(*args, **kwargs)
 # This file is compatible with both classic and new-style classes.
 
 

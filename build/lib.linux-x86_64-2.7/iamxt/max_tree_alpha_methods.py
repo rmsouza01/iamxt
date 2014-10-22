@@ -3,7 +3,6 @@
 
 import numpy as np
 import cv2
-import adpil
 import os
 
 def computeHeight(self):
@@ -181,15 +180,8 @@ def draw1DImageTree(self, tree = 'mt'):
       tree_image[1,yc,xc] = 0
       tree_image[2,yc,xc] = 0
 
-  #draw = adpil.adDraw(tree_image, rgb = 1)
-  #for jj in tree_connections:
-  #  p1 = (pixels_size/2+pixels_size*jj[1],pixels_size/2+pixels_size*jj[0],\
-  #        pixels_size/2+pixels_size*jj[3],pixels_size/2+pixels_size*jj[2])
-  #  draw.line(p1,fill = (255,0,0))
-  #tree_image = draw.get_image()[:,::-1,:]
 
   tree_image = tree_image.transpose(1,2,0) 
-  #
   tree_image[:,::pixels_size,2] = 0
   tree_image[::pixels_size,:,2] = 0
   tree_image[::pixels_size,:,0] = 255

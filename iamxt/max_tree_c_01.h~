@@ -18,10 +18,3 @@ void union_find3d_c(int L,int M, int N, int ,int , int *,int ,
 void computeNodeArray3d_c(int , int *,int , unsigned char *,
                           int , int * ,int , int , int , int *,
                           int **, int *, int *);
-
-
-void compute_area_c(int , int *, int , int *, int , int *);
-
-
-void direct_filter_c(double lambda, int , int *, int , int *,
- int , unsigned char *, int , unsigned char *, int , double * );

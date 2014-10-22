@@ -15,20 +15,20 @@ if version_info >= (2,6,0):
         import imp
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_max_tree_c_01', [dirname(__file__)])
+            fp, pathname, description = imp.find_module('_morph_tree_alpha_aux', [dirname(__file__)])
         except ImportError:
-            import _max_tree_c_01
-            return _max_tree_c_01
+            import _morph_tree_alpha_aux
+            return _morph_tree_alpha_aux
         if fp is not None:
             try:
-                _mod = imp.load_module('_max_tree_c_01', fp, pathname, description)
+                _mod = imp.load_module('_morph_tree_alpha_aux', fp, pathname, description)
             finally:
                 fp.close()
             return _mod
-    _max_tree_c_01 = swig_import_helper()
+    _morph_tree_alpha_aux = swig_import_helper()
     del swig_import_helper
 else:
-    import _max_tree_c_01
+    import _morph_tree_alpha_aux
 del version_info
 try:
     _swig_property = property
@@ -70,37 +70,39 @@ except AttributeError:
 
 
 
-def counting_sort_c(*args, **kwargs):
-  """counting_sort_c(int DIM1)"""
-  return _max_tree_c_01.counting_sort_c(*args, **kwargs)
+def get_descendants_aux_c(*args, **kwargs):
+  """get_descendants_aux_c(int node, int DIM1, int DIM1)"""
+  return _morph_tree_alpha_aux.get_descendants_aux_c(*args, **kwargs)
 
-def canonicalize_c(*args, **kwargs):
-  """canonicalize_c(int DIM1, int DIM1, int DIM1)"""
-  return _max_tree_c_01.canonicalize_c(*args, **kwargs)
+def get_ancestors_aux_c(*args, **kwargs):
+  """get_ancestors_aux_c(int node, int DIM1)"""
+  return _morph_tree_alpha_aux.get_ancestors_aux_c(*args, **kwargs)
 
-def union_find2d_c(*args, **kwargs):
-  """union_find2d_c(int H, int W, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1)"""
-  return _max_tree_c_01.union_find2d_c(*args, **kwargs)
+def get_children_aux_c(*args, **kwargs):
+  """get_children_aux_c(int DIM1, int DIM1)"""
+  return _morph_tree_alpha_aux.get_children_aux_c(*args, **kwargs)
 
-def computeNodeArray2d_c(*args, **kwargs):
-  """computeNodeArray2d_c(int DIM1, int DIM1, int DIM1, int DIM1)"""
-  return _max_tree_c_01.computeNodeArray2d_c(*args, **kwargs)
+def get_sub_branches_aux_c(*args, **kwargs):
+  """get_sub_branches_aux_c(int DIM1, int DIM1, int DIM1, int DIM1)"""
+  return _morph_tree_alpha_aux.get_sub_branches_aux_c(*args, **kwargs)
 
-def union_find3d_c(*args, **kwargs):
-  """union_find3d_c(int L, int M, int N, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1)"""
-  return _max_tree_c_01.union_find3d_c(*args, **kwargs)
+def contract_dr_2d_aux_c(*args, **kwargs):
+  """
+    contract_dr_2d_aux_c(int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, 
+        int DIM1)
+    """
+  return _morph_tree_alpha_aux.contract_dr_2d_aux_c(*args, **kwargs)
 
-def computeNodeArray3d_c(*args, **kwargs):
-  """computeNodeArray3d_c(int DIM1, int DIM1, int DIM1, int DIM1)"""
-  return _max_tree_c_01.computeNodeArray3d_c(*args, **kwargs)
+def contract_dr_3d_aux_c(*args, **kwargs):
+  """
+    contract_dr_3d_aux_c(int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, 
+        int DIM1, int DIM1, int DIM1)
+    """
+  return _morph_tree_alpha_aux.contract_dr_3d_aux_c(*args, **kwargs)
 
-def compute_area_c(*args, **kwargs):
-  """compute_area_c(int DIM1, int DIM1, int DIM1)"""
-  return _max_tree_c_01.compute_area_c(*args, **kwargs)
-
-def direct_filter_c(*args, **kwargs):
-  """direct_filter_c(double _lambda, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1)"""
-  return _max_tree_c_01.direct_filter_c(*args, **kwargs)
+def prune_aux_c(*args, **kwargs):
+  """prune_aux_c(int DIM1, int DIM1, int DIM1, int DIM1)"""
+  return _morph_tree_alpha_aux.prune_aux_c(*args, **kwargs)
 # This file is compatible with both classic and new-style classes.
 
 
