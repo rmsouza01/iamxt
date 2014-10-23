@@ -1,12 +1,15 @@
 #include <iostream>
 #include <vector>
-
+//#include <fstream>
 
 using namespace std;
 
 #define MAXVALUE 255
 #define RANGE 256
 #define UNDEFINED -1
+
+//ofstream out("log.txt");
+//out << "offset:" << k << endl;
 
 void counting_sort_c(int w1, unsigned char *flat_img,int **sorted_img, int *ww)
 {
@@ -21,7 +24,8 @@ void counting_sort_c(int w1, unsigned char *flat_img,int **sorted_img, int *ww)
 }
 
 
-inline int find_root(int *par, int p){
+int find_root(int *par, int p){
+	
    if (par[p] != p)
       par[p] = find_root(par,par[p]);
    return par[p];
@@ -57,13 +61,16 @@ void union_find2d_c(int H,int W, int h_off, int w_off, int *offsets, int h_par,
       zp = p;
       x = p/W;
       y = p%W;
+               
       for(int k = 0; k < 2*h_off; k+=w_off){
          x_n = x + offsets[k];
          y_n = y + offsets[k + 1];
          n = x_n*W+y_n;
-         if ((parent[n]!= UNDEFINED) && (x_n >= 0) &&  (x_n < H) &&  (y_n >= 0) &&
-             (y_n < W)) {
+
+         if ((x_n >= 0) &&  (x_n < H) &&  (y_n >= 0) &&
+             (y_n < W) && (parent[n]!= UNDEFINED)) {
             zn = find_root(zpar,n);
+               
             if (zn!= zp){
                if (flat_img[zp] == flat_img[zn]){
                   aux = zn;
@@ -71,11 +78,14 @@ void union_find2d_c(int H,int W, int h_off, int w_off, int *offsets, int h_par,
                   zp = aux;
                }
                zpar[zn] = zp;
+               
                parent[zn] = zp;
                S_rev[j] = zn;
+               
                j++;
             }
          }
+         
       }
    }
 S_rev[h_S-1] = parent[S_rev[h_S-1]];
