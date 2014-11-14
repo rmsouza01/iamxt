@@ -7,6 +7,7 @@ import numpy as np
 import gvgen
 import StringIO
 import cv2
+import adpil
 import os
 
 def bbox(self, dx, dy, dz = 0):
