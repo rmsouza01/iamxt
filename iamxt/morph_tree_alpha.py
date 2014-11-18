@@ -10,10 +10,10 @@ from morph_tree_alpha_methods import getImage, clone, recConnectedComponent, com
 
 
 from morph_tree_alpha_aux import get_children_aux_c, get_ancestors_aux_c, get_descendants_aux_c, get_sub_branches_aux_c,\
-                                 prune_aux_c, contract_dr_2d_aux_c, contract_dr_3d_aux_c
+                                 prune_aux_c, contract_dr_aux_c, update_nchild_aux_c
 
 from morph_tree_alpha_aux_py import get_children_aux_py, get_ancestors_aux_py, get_descendants_aux_py,\
-                                    get_sub_branches_aux_py, prune_aux_py, contract_dr_2d_aux_py, contract_dr_3d_aux_py
+                                    get_sub_branches_aux_py, prune_aux_py, contract_dr_aux_py, update_nchild_aux_py
 
 
 
@@ -76,14 +76,14 @@ class MorphTreeAlpha:
             self.get_descendants_aux = get_descendants_aux_c
             self.get_sub_branches_aux = get_sub_branches_aux_c
             self.prune_aux = prune_aux_c
-            self.contract_dr_2d_aux = contract_dr_2d_aux_c
-            self.contract_dr_3d_aux = contract_dr_3d_aux_c
+            self.contract_dr_aux = contract_dr_aux_c
+            self.update_nchild_aux = update_nchild_aux_c
         else:
             self.get_children_aux =  get_children_aux_py
             self.get_ancestors_aux = get_ancestors_aux_py
             self.get_descendants_aux = get_descendants_aux_py
             self.get_sub_branches_aux = get_sub_branches_aux_py
             self.prune_aux = prune_aux_py
-            self.contract_dr_2d_aux = contract_dr_2d_aux_py
-            self.contract_dr_3d_aux = contract_dr_3d_aux_py
+            self.contract_dr_aux = contract_dr_aux_py
+            self.update_nchild_aux = update_nchild_aux_py
 

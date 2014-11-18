@@ -23,16 +23,9 @@ void get_sub_branches_aux_c(int , int *, int , int *,
                             int , int *,int , int *,
                             int **, int *);
 
-void contract_dr_2d_aux_c(int , int *, int , int *,
-int , int *, int , int *,int , int *,
-int , int *,int , int *, int , int *,
-int , int *, int , int , int *);
+void contract_dr_aux_c(int,  int *,int, int *, int,int  *);
 
-void contract_dr_3d_aux_c(int , int *, int , int *, int ,
-int *, int , int *,int , int *,int ,
-int *,int , int *, int , int *,int ,
-int *, int , int *, int , int *, int ,
-int , int , int *);
+void update_nchild_aux_c(int,  int *,int, int *);
 
 void prune_aux_c(int , int *, int , int *, int ,
                  int *, int , int *);
@@ -50,16 +43,10 @@ void get_sub_branches_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLAC
                             int DIM1, int *INPLACE_ARRAY1,int DIM1, int *INPLACE_ARRAY1,
                             int **ARGOUT_ARRAY1, int *DIM1);
 
-void contract_dr_2d_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
-int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,int DIM1, int *INPLACE_ARRAY1,
-int DIM1, int *INPLACE_ARRAY1,int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
-int DIM1, int *INPLACE_ARRAY1, int DIM1, int DIM2, int *INPLACE_ARRAY2);
+void contract_dr_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
+                           int DIM1,int *INPLACE_ARRAY1);
 
-void contract_dr_3d_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1, int DIM1,
-int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,int DIM1, int *INPLACE_ARRAY1,int DIM1,
-int *INPLACE_ARRAY1,int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,int DIM1,
-int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1, int DIM1,
-int DIM2, int DIM3, int *INPLACE_ARRAY3);
+void update_nchild_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1);
 
 void prune_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1, int DIM1,
                  int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1);

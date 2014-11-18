@@ -100,7 +100,7 @@ void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned char *flat_im
    int x,y;
    int pi,pindex,p;
    int raster,raster2;
-   int ncols = 10;
+   int ncols = 11;
    unsigned char level, plevel;
 
    int *area = new int[h_S];
@@ -134,12 +134,13 @@ void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned char *flat_im
       node_array2[++raster] = 0;           //  1 isleaf
       node_array2[++raster] = level;       //  2 level
       node_array2[++raster] = area[p];    //  3 area
-      node_array2[++raster] = 0;          //  4 sumx
-      node_array2[++raster] = 10000;          //  5 xmin
-      node_array2[++raster] = 0;      //  6 xmax
-      node_array2[++raster] = 0;      //  7 sumy
-      node_array2[++raster] = 10000;          //  8 ymin
-      node_array2[++raster] = 0;         //  9 ymax
+      node_array2[++raster] = p;    //  4 Seed pixel
+      node_array2[++raster] = 0;          //  5 sumx
+      node_array2[++raster] = 10000;          //  6 xmin
+      node_array2[++raster] = 0;      //  7 xmax
+      node_array2[++raster] = 0;      //  8 sumy
+      node_array2[++raster] = 10000;          // 9  ymin
+      node_array2[++raster] = 0;         //  10 ymax
       k++;
    }
 
@@ -148,7 +149,7 @@ void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned char *flat_im
       k = node_index[i];
       y = i%W;
       x = i/W;
-      raster = k*ncols + 4;
+      raster = k*ncols + 5;
       node_array2[raster] += x;
       if (x < node_array2[++raster]) node_array2[raster] = x;
       if (x > node_array2[++raster]) node_array2[raster] = x;
@@ -161,20 +162,20 @@ void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned char *flat_im
       raster = i*ncols;
       pi = node_array2[raster];
       raster2 = pi*ncols;
-      node_array2[raster2 + 4] += node_array2[raster + 4];
-      if(node_array2[raster + 5] < node_array2[raster2 + 5])
-         node_array2[raster2 + 5] = node_array2[raster + 5];
-      if(node_array2[raster + 6] > node_array2[raster2 + 6])
+      node_array2[raster2 + 5] += node_array2[raster + 5];
+      if(node_array2[raster + 6] < node_array2[raster2 + 6])
          node_array2[raster2 + 6] = node_array2[raster + 6];
-      node_array2[raster2 + 7] += node_array2[raster + 7];
-      if(node_array2[raster + 8] < node_array2[raster2 + 8])
-         node_array2[raster2 + 8] = node_array2[raster + 8];
-      if(node_array2[raster + 9] > node_array2[raster2 + 9])
+      if(node_array2[raster + 7] > node_array2[raster2 + 7])
+         node_array2[raster2 + 7] = node_array2[raster + 7];
+      node_array2[raster2 + 8] += node_array2[raster + 8];
+      if(node_array2[raster + 9] < node_array2[raster2 + 9])
          node_array2[raster2 + 9] = node_array2[raster + 9];
+      if(node_array2[raster + 10] > node_array2[raster2 + 10])
+         node_array2[raster2 + 10] = node_array2[raster + 10];
    }
    node_array2[3] = node_array2[3]/2;
-   node_array2[4] = node_array2[4]/2;
    node_array2[5] = node_array2[5]/2;
+   node_array2[8] = node_array2[8]/2;
 
    delete[] area;
 }
@@ -243,7 +244,7 @@ void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned char *flat_im
    int n = L*MN;
    int *area = new int[n];
    int raster,raster2;
-   int ncols = 13;
+   int ncols = 14;
 
    unsigned char level, plevel;
    vector<int> sorted_lvroots;
@@ -277,15 +278,16 @@ void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned char *flat_im
       node_array2[++raster] = 0;           //  1 isleaf
       node_array2[++raster] = level;       //  2 level
       node_array2[++raster] = area[p];    //  3 area
-      node_array2[++raster] = 0;          //  4 sumx
-      node_array2[++raster] = 10000;          //  5 xmin
-      node_array2[++raster] = 0;      //  6 xmax
-      node_array2[++raster] = 0;      //  7 sumy
-      node_array2[++raster] = 10000;          //  8 ymin
-      node_array2[++raster] = 0;         //  9 ymax
-      node_array2[++raster] = 0;      //  10 sumz
-      node_array2[++raster] = 10000;          //  11 zmin
-      node_array2[++raster] = 0;         //  12 zmax
+      node_array2[++raster] = p;    //  4 Seed pixel
+      node_array2[++raster] = 0;          //  5 sumx
+      node_array2[++raster] = 10000;          //  6 xmin
+      node_array2[++raster] = 0;      //  7 xmax
+      node_array2[++raster] = 0;      //  8 sumy
+      node_array2[++raster] = 10000;          //  9 ymin
+      node_array2[++raster] = 0;         //  10 ymax
+      node_array2[++raster] = 0;      //  11 sumz
+      node_array2[++raster] = 10000;          //  12 zmin
+      node_array2[++raster] = 0;         //  13 zmax
       k++;
    }
 
@@ -296,7 +298,7 @@ void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned char *flat_im
       temp = (i - x*MN);
       y = temp/N;
       z = temp%N;
-      raster = k*ncols + 4;
+      raster = k*ncols + 5;
       node_array2[raster] += x;
       if (x < node_array2[++raster]) node_array2[raster] = x;
       if (x > node_array2[++raster]) node_array2[raster] = x;
@@ -312,26 +314,26 @@ void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned char *flat_im
       raster = i*ncols;
       pi = node_array2[raster];
       raster2 = pi*ncols;
-      node_array2[raster2 + 4] += node_array2[raster + 4];
-      if(node_array2[raster + 5] < node_array2[raster2 + 5])
-         node_array2[raster2 + 5] = node_array2[raster + 5];
-      if(node_array2[raster + 6] > node_array2[raster2 + 6])
+      node_array2[raster2 + 5] += node_array2[raster + 5];
+      if(node_array2[raster + 6] < node_array2[raster2 + 6])
          node_array2[raster2 + 6] = node_array2[raster + 6];
-      node_array2[raster2 + 7] += node_array2[raster + 7];
-      if(node_array2[raster + 8] < node_array2[raster2 + 8])
-         node_array2[raster2 + 8] = node_array2[raster + 8];
-      if(node_array2[raster + 9] > node_array2[raster2 + 9])
+      if(node_array2[raster + 7] > node_array2[raster2 + 7])
+         node_array2[raster2 + 7] = node_array2[raster + 7];
+      node_array2[raster2 + 8] += node_array2[raster + 8];
+      if(node_array2[raster + 9] < node_array2[raster2 + 9])
          node_array2[raster2 + 9] = node_array2[raster + 9];
-      node_array2[raster2 + 10] += node_array2[raster + 10];
-      if(node_array2[raster + 11] < node_array2[raster2 + 11])
-         node_array2[raster2 + 11] = node_array2[raster + 11];
-      if(node_array2[raster + 12] > node_array2[raster2 + 12])
+      if(node_array2[raster + 10] > node_array2[raster2 + 10])
+         node_array2[raster2 + 10] = node_array2[raster + 10];
+      node_array2[raster2 + 11] += node_array2[raster + 11];
+      if(node_array2[raster + 12] < node_array2[raster2 + 12])
          node_array2[raster2 + 12] = node_array2[raster + 12];
+      if(node_array2[raster + 13] > node_array2[raster2 + 13])
+         node_array2[raster2 + 13] = node_array2[raster + 13];
    }
    node_array2[3] = node_array2[3]/2;
-   node_array2[4] = node_array2[4]/2;
-   node_array2[7] = node_array2[7]/2;
-   node_array2[10] = node_array2[10]/2;
+   node_array2[5] = node_array2[5]/2;
+   node_array2[8] = node_array2[8]/2;
+   node_array2[11] = node_array2[11]/2;
    delete[] area;
 }
 

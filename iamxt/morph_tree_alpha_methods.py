@@ -13,12 +13,12 @@ def bbox(self, dx, dy, dz = 0):
     """
     Contracts all nodes with bounding box less than 'dx' by 'dy'
     """
-    ddx = self.node_array[6,:] - self.node_array[5,:] + 1
-    ddy = self.node_array[9,:] - self.node_array[8,:] + 1
+    ddx = self.node_array[7,:] - self.node_array[6,:] + 1
+    ddy = self.node_array[10,:] - self.node_array[9,:] + 1
     if self.node_index.ndim == 2:
         self.prune((ddx < dx) & (ddy < dy))
     else:
-        ddz = self.node_array[12,:] - self.node_array[11,:] + 1
+        ddz = self.node_array[13,:] - self.node_array[12,:] + 1
         self.prune((ddx < dx) & (ddy < dy) & (ddz < dz))
     return self
 
@@ -73,14 +73,14 @@ def getImage(self):
 
 
 def computeRR(self):
-    xmin,xmax = self.node_array[5,:], self.node_array[6,:] + 1
-    ymin,ymax = self.node_array[8,:], self.node_array[9,:] + 1
+    xmin,xmax = self.node_array[6,:], self.node_array[7,:] + 1
+    ymin,ymax = self.node_array[9,:], self.node_array[10,:] + 1
     area = self.node_array[3,:]
 
     if self.node_index.ndim == 2:
         return 1.0*area/((xmax-xmin)*(ymax-ymin))
     else:
-        zmin,zmax = self.node_array[11,:], self.node_array[12,:] + 1
+        zmin,zmax = self.node_array[12,:], self.node_array[13,:] + 1
         return 1.0*area/((xmax-xmin)*(ymax-ymin)*(zmax-zmin))
 
 
@@ -99,32 +99,24 @@ def prune(self, to_prune):
     return self
 
 def contractDR(self, to_keep):
-  """
-  Direct rule for contracting any max-tree nodes marked as False in 'to_keep'.
-  This is a generic node removal procedure. Note that a node in the max-tree
-  can represent many level components.
-  """
-
-  if not self._children_updated:
-    self.getChildren(0)
-  to_keep[0] = True # The root can never be removed
-  if self.node_index.ndim == 2:
-    self.contract_dr_2d_aux(self._children_list,self._cum_children_hist, \
-                           to_keep.astype(np.int32),self.node_array[0,:],\
-                           self.node_array[1,:],self.node_array[5,:],\
-                           self.node_array[6,:],self.node_array[8,:],\
-                           self.node_array[9,:],self.node_index)
-  else:
-    self.contract_dr_3d_aux(self._children_list,self._cum_children_hist, \
-    to_keep.astype(np.int32),self.node_array[0,:],self.node_array[1,:],\
-    self.node_array[5,:],self.node_array[6,:],self.node_array[8,:],\
-    self.node_array[9,:],self.node_array[11,:],self.node_array[12,:],self.node_index)
-
-
-  return self.compact(~to_keep)
+    """
+    Direct rule for contracting any max-tree nodes marked as False in 'to_keep'.
+    This is a generic node removal procedure. Note that a node in the max-tree 
+    can represent many level components.
+    """
+        
+    to_keep[0] = True # The root can never be removed
+    N = self.node_array.shape[1]
+    lut = np.arange(N, dtype = np.int32)
+    self.contract_dr_aux(to_keep.astype(np.int32),lut,self.node_array[0,:])
+    self.node_index = lut[self.node_index]
+    self.compact(~to_keep)
+    self.node_array[1,:] = 0
+    self.update_nchild_aux(self.node_array[0,:],self.node_array[1,:])
+    return self 
 
 def getAncestors(self, node):
-  return self.get_ancestors_aux(node, self.node_array[0,:])
+    return self.get_ancestors_aux(node, self.node_array[0,:])
 
 
 def getChildren(self,node = 0):
@@ -390,13 +382,13 @@ def recConnectedComponent(self,node,bbonly = False):
     bounding-box.
     """
 
-    xmin,xmax = self.node_array[5,node], self.node_array[6,node] + 1
-    ymin,ymax = self.node_array[8,node], self.node_array[9,node] + 1
+    xmin,xmax = self.node_array[6,node], self.node_array[7,node] + 1
+    ymin,ymax = self.node_array[9,node], self.node_array[10,node] + 1
     if self.node_index.ndim == 2:
         indexes = (slice(xmin,xmax),slice(ymin,ymax))
         bb_shape = (xmax-xmin,ymax-ymin)
     else:
-        zmin,zmax = self.node_array[11,node], self.node_array[12,node] + 1
+        zmin,zmax = self.node_array[12,node], self.node_array[13,node] + 1
         indexes = (slice(xmin,xmax),slice(ymin,ymax),slice(zmin,zmax))
         bb_shape = (xmax-xmin,ymax-ymin,zmax-zmin)
     if bbonly:
