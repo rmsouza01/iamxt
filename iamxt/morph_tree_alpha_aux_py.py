@@ -2,68 +2,24 @@
 
 import numpy as np
 
-def contract_dr_2d_aux_py(children_list,cum_children_hist, to_keep,parent,nchild,xmin,\
-                          xmax,ymin,ymax,node_index):
-
-  AMTup =[]
-  AMTup.append(children_list[0:cum_children_hist[0]].tolist())
-  for i in xrange(1,parent.size):
-    temp = children_list[cum_children_hist[i-1]:cum_children_hist[i]].tolist()
-    AMTup.append(temp)
-
-
-  to_remove = np.logical_not(to_keep)
-  to_remove[0] = False
-
-  for i in np.nonzero(to_remove)[0][::-1]:    # scanning from leaves to root
-    pn = parent[i]                          # the node about to be removed has this parent
-    if (nchild[i] == 0):                    # it is a leaf
-      nchild[pn] -= 1
-      AMTup[pn].remove(i)          #   so its parent now has -1 child
-      node_index_slice = node_index[xmin[i]:xmax[i]+1,ymin[i]:ymax[i]+1]
-      node_index_slice[node_index_slice==i] = pn
-    else:                                   # it's a non-leaf node
-      c = AMTup[i]                        # get its children
-      parent[c] = pn           #   and adjust its parent
-      node_index_slice = node_index[xmin[i]:xmax[i]+1,ymin[i]:ymax[i]+1]
-      node_index_slice[node_index_slice==i] = pn
-      AMTup[pn].remove(i)                 # update the up links
-      AMTup[pn].extend(AMTup[i])
-      nchild[pn] += len(c) - 1 # update nchild
-    parent[i] = i                # removed, point it to itself
-  return
-
-
-def contract_dr_3d_aux_py(children_list,cum_children_hist, to_keep,parent,\
-                         nchild,xmin,xmax,ymin,ymax,zmin,zmax,node_index):
-
-  AMTup =[]
-  AMTup.append(children_list[0:cum_children_hist[0]].tolist())
-  for i in xrange(1,parent.size):
-    temp = children_list[cum_children_hist[i-1]:cum_children_hist[i]].tolist()
-    AMTup.append(temp)
-
-
-  to_remove = np.logical_not(to_keep)
-  to_remove[0] = False
-
-  for i in np.nonzero(to_remove)[0][::-1]:    # scanning from leaves to root
-    pn = parent[i]                          # the node about to be removed has this parent
-    if (nchild[i] == 0):                    # it is a leaf
-      nchild[pn] -= 1
-      AMTup[pn].remove(i)          #   so its parent now has -1 child
-      node_index_slice = node_index[xmin[i]:xmax[i]+1,ymin[i]:ymax[i]+1,zmin[i]:zmax[i]+1]
-      node_index_slice[node_index_slice==i] = pn
-    else:                                   # it's a non-leaf node
-      c = AMTup[i]                        # get its children
-      parent[c] = pn           #   and adjust its parent
-      node_index_slice = node_index[xmin[i]:xmax[i]+1,ymin[i]:ymax[i]+1,zmin[i]:zmax[i]+1]
-      node_index_slice[node_index_slice==i] = pn
-      AMTup[pn].remove(i)                 # update the up links
-      AMTup[pn].extend(AMTup[i])
-      nchild[pn] += len(c) - 1 # update nchild
-    parent[i] = i                # removed, point it to itself
-  return
+def contract_dr_aux_py(to_keep,lut,par):
+        
+    nearest_ancestor_kept = np.zeros(par.size) 
+       
+    for i in xrange(1,par.size):
+        if (not to_keep[i]):
+            temp = nearest_ancestor_kept[par[i]]; 
+            nearest_ancestor_kept[i] = temp
+            lut[i] = lut[temp];
+             
+        else:
+            nearest_ancestor_kept[i] = i; 
+            par[i] = nearest_ancestor_kept[par[i]];
+    return
+ 
+def update_nchild_aux_py(par,nchild):
+    for i in xrange(1,par.size):
+        nchild[par[i]] += 1   
 
 
 def prune_aux_py(lut,to_prune, parent,nchild):
