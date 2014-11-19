@@ -101,7 +101,7 @@ void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned char *flat_im
    int pi,pindex,p;
    int raster,raster2;
    int ncols = 11;
-   unsigned char level, plevel;
+   unsigned char level;
 
    int *area = new int[h_S];
    vector<int> sorted_lvroots;
@@ -125,7 +125,6 @@ void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned char *flat_im
    for(int i = nlevelroots - 1; i >= 0; i--){
       p = sorted_lvroots[i];
       level = flat_img[p];
-      plevel = flat_img[par[p]];
       node_index[p] = k;
       pindex = node_index[par[p]];
       node_array2[pindex*ncols + 1]+=1;
@@ -246,7 +245,7 @@ void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned char *flat_im
    int raster,raster2;
    int ncols = 14;
 
-   unsigned char level, plevel;
+   unsigned char level;
    vector<int> sorted_lvroots;
 
 
@@ -269,7 +268,6 @@ void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned char *flat_im
    for(int i = nlevelroots - 1; i >= 0; i--){
       p = sorted_lvroots[i];
       level = flat_img[p];
-      plevel = flat_img[par[p]];
       node_index[p] = k;
       pindex = node_index[par[p]];
       node_array2[pindex*ncols + 1]+=1;
@@ -350,11 +348,11 @@ void compute_area_c(int h_S, int *S, int h_parent, int *parent, int h_area, int 
         }
     }
 
-void direct_filter_c(double lambda, int h_S, int *S, int h_parent, int *parent, int h_img,
+void direct_filter_c(double lamb, int h_S, int *S, int h_parent, int *parent, int h_img,
  unsigned char *flat_img, int h_out, unsigned char *out, int h_attr, double *attr ){
     int p,q,p_root;
     p_root = S[0];
-    if (attr[p_root] < lambda)
+    if (attr[p_root] < lamb)
         out[p_root] = 0;
     else
         out[p_root] = flat_img[p_root];
@@ -363,7 +361,7 @@ void direct_filter_c(double lambda, int h_S, int *S, int h_parent, int *parent, 
         q = parent[p];
         if (flat_img[q] == flat_img[p])
             out[p] = out[q];
-        else if (attr[p] < lambda)
+        else if (attr[p] < lamb)
             out[p] = out[q];
         else
             out[p] = flat_img[p];

@@ -37,7 +37,7 @@ void computeNodeArray3d_c(int , int *,int , unsigned char *,
 
 void compute_area_c(int , int *, int , int *, int , int *);
 
-void direct_filter_c(double lambda, int , int *, int , int *,
+void direct_filter_c(double lamb, int , int *, int , int *,
  int , unsigned char *, int , unsigned char *, int , double * );
 
 %}
@@ -66,6 +66,6 @@ void computeNodeArray3d_c(int DIM1, int *INPLACE_ARRAY1,int DIM1, unsigned char 
 
 void compute_area_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1);
 
-void direct_filter_c(double lambda, int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
+void direct_filter_c(double lamb, int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
  int DIM1, unsigned char *INPLACE_ARRAY1, int DIM1, unsigned char *INPLACE_ARRAY1, int DIM1, double *INPLACE_ARRAY1 );
 

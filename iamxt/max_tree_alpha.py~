@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 # Module max_tree_alpha
 
-
+from morph_tree_alpha import MorphTreeAlpha
 from max_tree_alpha_methods import draw1DImageTree, vmax, hmax, computeHeight, computeVolume, computeStabilityMeasure,\
                                    computeExtinctionValues, getSignature, extinctionFilter, mmsT, mmsMSER 
                                    
