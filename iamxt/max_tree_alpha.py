@@ -16,6 +16,7 @@ from max_tree_alpha_aux_py import compute_height_aux_py, compute_volume_aux_py, 
                                   mms_t_aux_py, mms_mser_aux_py
 
 from morph_tree_alpha import MorphTreeAlpha
+
                                      
 class MaxTreeAlpha(MorphTreeAlpha):
   """
