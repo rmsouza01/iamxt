@@ -20,8 +20,7 @@ void compute_height_aux_c(int h1, int *par, int h2, int *delta, int h3, int *hei
 }
 
 void compute_volume_aux_c(int h1, int *par, int h2, int *delta, int h3, int *area, int h4, int *volume){
-   int parent_i;
-
+   
    for(int i = (h1-1); i > 0; i--){
       volume[par[i]] += volume[i] + (delta[i] - 1)*area[i];
       }
@@ -86,7 +85,7 @@ void get_signature_aux_c(int h1, int *par, int h2, int *h, int h3, int *area,
    *h5 = h[start] - h[end] + 1;
    int *signature2 = new int[*h5];
    *signature = signature2;
-   int par_i,node,nlevels, counter = *h5 - 1;
+   int node,nlevels, counter = *h5 - 1;
    node = start;
 
    if (cte == 0){
