@@ -5,12 +5,14 @@ from build_max_tree import build_max_tree
 from morph_tree_alpha_methods import getImage, clone, recConnectedComponent, compact,\
 				     areaOpen, bbox, computeRR, generateCCPathGraph, \
                                      generateCCGraph, generateGraph, getChildren, getAncestors, \
-                                     getDescendants, getSubBranches, prune, contractDR, computeHistogram,\
-                                     lut_node_index_c   
+                                     getDescendants, getSubBranches, prune, contractDR, computeHistogram
+                                     
 
 from morph_tree_alpha_aux import get_children_aux_c, get_ancestors_aux_c, get_descendants_aux_c, get_sub_branches_aux_c,\
                                  prune_aux_c, contract_dr_aux_c, update_nchild_aux_c, remove_node_array_lines_c, \
-                                 rec_connected_component_2d_c, rec_connected_component_3d_c, get_image_aux_2d_c, get_image_aux_3d_c 
+                                 rec_connected_component_2d_c, rec_connected_component_3d_c, get_image_aux_2d_c, get_image_aux_3d_c,\
+                                 lut_node_index_3d_c, lut_node_index_2d_c 
+from aux import se2off
 
 class MorphTreeAlpha:
     """
@@ -61,6 +63,7 @@ class MorphTreeAlpha:
         self._sb = []
         self._cum_sb_hist = []
         self._sb_updated = False
+        self.off = se2off(Bc)
         
 
         self.get_children_aux = get_children_aux_c
@@ -75,6 +78,7 @@ class MorphTreeAlpha:
         self.rec_connected_component_3d_aux = rec_connected_component_3d_c
         self.get_image_aux_2d_aux = get_image_aux_2d_c
         self.get_image_aux_3d_aux = get_image_aux_3d_c
-
+        self.lut_node_index_3d_aux = lut_node_index_3d_c
+        self.lut_node_index_2d_aux = lut_node_index_2d_c 
 
 

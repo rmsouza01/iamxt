@@ -43,10 +43,10 @@ def compact(self, to_remove, lut):
     lut = (lut - index_fix[lut]).astype(np.int32)
     self.node_array[0,:] = lut[parent]
 
-    if node_index.ndim == 3:
-        lut_node_index_3d_aux(lut,self.node_index)
+    if self.node_index.ndim == 3:
+        self.lut_node_index_3d_aux(lut,self.node_index)
     else:    
-        lut_node_index_2d_aux(lut,self.node_index)
+        self.lut_node_index_2d_aux(lut,self.node_index)
         
     #self.node_array = self.node_array[:,~to_remove]
     #if not self.node_array.flags.contiguous:
@@ -74,10 +74,10 @@ def getImage(self):
     This method returns the image corresponding to the tree.
     """
     out_img = np.empty(self.node_index.shape, dtype = np.uint8)
-    if node_index.ndim == 3:
-        get_image_aux_3d_aux(self.node_array[2],self.node_index,out_img)
+    if self.node_index.ndim == 3:
+        self.get_image_aux_3d_aux(self.node_array[2],self.node_index,out_img)
     else:
-        get_image_aux_2d_aux(self.node_array[2],self.node_index,out_img)
+        self.get_image_aux_2d_aux(self.node_array[2],self.node_index,out_img)
     return out_img
 
 
@@ -105,7 +105,7 @@ def prune(self, to_prune):
     lut = np.arange(N, dtype = np.int32)
     self.prune_aux(lut,to_prune.astype(np.int32), self.node_array[0,:], self.node_array[1,:])
     self.node_index = lut[self.node_index]
-    self.compact(to_prune)
+    self.compact(to_prune,lut)
     return self
 
 def contractDR(self, to_keep):
@@ -120,7 +120,7 @@ def contractDR(self, to_keep):
     lut = np.arange(N, dtype = np.int32)
     self.contract_dr_aux(to_keep.astype(np.int32),lut,self.node_array[0,:])
     self.node_index = lut[self.node_index]
-    self.compact(~to_keep)
+    self.compact(~to_keep,lut)
     self.node_array[1,:] = 0
     self.update_nchild_aux(self.node_array[0,:],self.node_array[1,:])
     return self 
@@ -229,14 +229,14 @@ def generateCCGraph(self,s = (100,100), parent_scale = True, LR = False,file_nam
         path = 'node___' + str(i) + '.png'
 
         if parent_scale:
-            xpmin,xpmax = self.node_array[5,parents[i]],self.node_array[6,parents[i]]
-            ypmin,ypmax = self.node_array[8,parents[i]],self.node_array[9,parents[i]]
+            xpmin,xpmax = self.node_array[6,parents[i]],self.node_array[7,parents[i]]
+            ypmin,ypmax = self.node_array[9,parents[i]],self.node_array[10,parents[i]]
         else:
-            xpmin,xpmax = self.node_array[5,i],self.node_array[6,i]
-            ypmin,ypmax = self.node_array[8,i],self.node_array[9,i]
+            xpmin,xpmax = self.node_array[6,i],self.node_array[7,i]
+            ypmin,ypmax = self.node_array[9,i],self.node_array[10,i]
 
         node_image = (self.recConnectedComponent(i)[xpmin:xpmax+1,ypmin:ypmax+1]).astype('uint8')*255
-        node_image = cv2.resize(node_image,(s[1],s[0]))
+	node_image = cv2.resize(node_image,(s[1],s[0]))
 
         if parent_scale:
             bool_image = np.zeros(s,dtype = bool)
@@ -305,11 +305,11 @@ def generateCCPathGraph(self,start, end = 0, s = (100,100), parent_scale = True,
         path = 'node___' + str(pos) + '.png'
 
         if parent_scale and pos!= end:
-            xpmin,xpmax = self.node_array[5,parents[pos]],self.node_array[6,parents[pos]]
-            ypmin,ypmax = self.node_array[8,parents[pos]],self.node_array[9,parents[pos]]
+            xpmin,xpmax = self.node_array[6,parents[pos]],self.node_array[7,parents[pos]]
+            ypmin,ypmax = self.node_array[9,parents[pos]],self.node_array[10,parents[pos]]
         else:
-            xpmin,xpmax = self.node_array[5,pos],self.node_array[6,pos]
-            ypmin,ypmax = self.node_array[8,pos],self.node_array[9,pos]
+            xpmin,xpmax = self.node_array[6,pos],self.node_array[7,pos]
+            ypmin,ypmax = self.node_array[9,pos],self.node_array[10,pos]
 
         node_image = (self.recConnectedComponent(pos)[xpmin:xpmax+1,ypmin:ypmax+1]).astype('uint8')*255
         node_image = cv2.resize(node_image,(s[1],s[0]))
@@ -397,9 +397,9 @@ def recConnectedComponent(self,node, bbonly = False):
         
         
     if self.node_index.ndim == 2:
-       rec_connected_component_2d_aux(int(node),int(seed),self.node_index,cc,self.off)
+       self.rec_connected_component_2d_aux(int(node),int(seed),self.node_index,cc,self.off)
     else:
-       rec_connected_component_3d_aux(int(node),int(seed),self.node_index,cc,self.off)
+       self.rec_connected_component_3d_aux(int(node),int(seed),self.node_index,cc,self.off)
         
     if not bbonly:
        return cc.astype(bool)
