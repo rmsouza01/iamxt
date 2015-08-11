@@ -241,6 +241,7 @@ def hmax(self, h, Height = None):
     """
     This method implemnets the hmax filter
     """
+    h = h + 1
     if Height == None:
         child_height = self.computeHeight() - 1
     else:
@@ -258,6 +259,7 @@ def vmax(self, vol,V = None):
     """
     This method implemnets the vmax filter
     """
+    vol = vol + 1
     area = self.node_array[3,:]
     level = self.node_array[2,:]
     parent = self.node_array[0,:]

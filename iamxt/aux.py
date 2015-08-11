@@ -32,13 +32,13 @@ def create1DImage(img):
     img1D[0,:,-1] =255
     img1D[1,-1,:] = 255
     img1D[1,:,-1] = 255
-    return img1D
+    return img1D.transpose(1,2,0) #OpenCV convention H,W,Channel
 
 def extrema2attribute(n, ext):
 
     ext = ext[ext!=0] # Non-zero extinction values
-    max_ext = ext.max()
     temp = np.unique(ext) # Returns non-repeated elements
+    max_ext = temp[-1]	    
     bins = np.zeros(len(temp)+2, dtype = np.int32)
     bins[1:-1] = temp
     bins[-1] = max_ext + 1
@@ -46,7 +46,7 @@ def extrema2attribute(n, ext):
     x = bins[:-1]
     y = (hist.sum() - np.cumsum(hist))
     index = np.where(y >= n)[0][-1]
-    attr_value =  x[index+1]
+    attr_value =  x[index]
     new_n = y[index]
     return attr_value,new_n
 

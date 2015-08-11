@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
 # Module morph_tree_bbox
 
-
 import copy
 import numpy as np
 import gvgen
 import StringIO
 import cv2
 import os
+
 
 def bbox(self, dx, dy, dz = 0):
     """
@@ -22,8 +22,6 @@ def bbox(self, dx, dy, dz = 0):
         self.prune((ddx < dx) & (ddy < dy) & (ddz < dz))
     return self
 
-
-
 def clone(self):
     """
     This method returns a hard copy of the Max-Tree object.
@@ -31,35 +29,42 @@ def clone(self):
     mxt = copy.deepcopy(self)
     return mxt
 
-
-
-
-def compact(self, to_remove):
+def compact(self, to_remove, lut):
     """
-    This method removes the nodes to_remove of self.node_array and adjust
+    This method removes the nodes to_remove of self.node_array and adjust 
     the pointers in self.node_array and self.node_index. to_remove is a boolean
-    array with 1 for the nodes that need to be removed.
+    array with 1 for the nodes that need to be removed. 
     """
-    self._children_updated = False
-    self._sb_updated = False
+    self._children_updated = False 
+    self._sb_updated = False 
     N = self.node_array.shape[1]
     parent = self.node_array[0,:]
-    # compute index offset in lut
     index_fix = to_remove.astype(np.int32).cumsum()
-    lut = (np.arange(N, dtype = np.int32) - index_fix).astype(np.int32)
+    lut = (lut - index_fix[lut]).astype(np.int32)
     self.node_array[0,:] = lut[parent]
 
-    self.node_index = lut[self.node_index]
-    self.node_array = self.node_array[:,~to_remove]
-    if not self.node_array.flags.contiguous:
-        self.node_array = np.ascontiguousarray(self.node_array, dtype = np.int32)
+    if node_index.ndim == 3:
+        lut_node_index_3d_aux(lut,self.node_index)
+    else:    
+        lut_node_index_2d_aux(lut,self.node_index)
+        
+    #self.node_array = self.node_array[:,~to_remove]
+    #if not self.node_array.flags.contiguous:
+    #    self.node_array = np.ascontiguousarray(self.node_array, dtype = np.int32)
+        
+    nodes_kept = np.nonzero(~to_remove)[0].astype(np.int32)
+    new_node_array = np.empty((self.node_array.shape[0],nodes_kept.size), dtype = np.int32)    
+    self.remove_node_array_lines_aux(nodes_kept,new_node_array,self.node_array)
+    self.node_array = new_node_array
     return self
+
 
 
 def areaOpen(self, n):
     """
     Contracts all the nodes with area less than 'area'
     """
+    n = n + 1
     area = self.node_array[3,:]
     self.prune(area < n)
     return self
@@ -68,8 +73,13 @@ def getImage(self):
     """
     This method returns the image corresponding to the tree.
     """
-    newlevel = self.node_array[2,:].astype(np.uint8)
-    return newlevel[self.node_index].reshape(self.shape)
+    out_img = np.empty(self.node_index.shape, dtype = np.uint8)
+    if node_index.ndim == 3:
+        get_image_aux_3d_aux(self.node_array[2],self.node_index,out_img)
+    else:
+        get_image_aux_2d_aux(self.node_array[2],self.node_index,out_img)
+    return out_img
+
 
 
 def computeRR(self):
@@ -374,38 +384,55 @@ def generateCCPathGraph(self,start, end = 0, s = (100,100), parent_scale = True,
         return dottext
     return
 
-def recConnectedComponent(self,node,bbonly = False):
+def recConnectedComponent(self,node, bbonly = False):
     """
-    This method returns a binary image corresponding to the connected component represented by
-    node.
-    bbonly -> Flag that indicates wether return the whole image or just the connecetd component
-    bounding-box.
+    This method returns a binary image corresponding to the
+    connected component represented by node.
+    bbonly -> Flag that indicates wether return the whole 
+    image or just the connecetd component bounding-box.
     """
+        
+    seed = self.node_array[4,node]
+    cc = np.zeros(self.shape, dtype = np.uint8)
+        
+        
+    if self.node_index.ndim == 2:
+       rec_connected_component_2d_aux(int(node),int(seed),self.node_index,cc,self.off)
+    else:
+       rec_connected_component_3d_aux(int(node),int(seed),self.node_index,cc,self.off)
+        
+    if not bbonly:
+       return cc.astype(bool)
 
     xmin,xmax = self.node_array[6,node], self.node_array[7,node] + 1
     ymin,ymax = self.node_array[9,node], self.node_array[10,node] + 1
     if self.node_index.ndim == 2:
-        indexes = (slice(xmin,xmax),slice(ymin,ymax))
-        bb_shape = (xmax-xmin,ymax-ymin)
+       indexes = (slice(xmin,xmax),slice(ymin,ymax))
     else:
-        zmin,zmax = self.node_array[12,node], self.node_array[13,node] + 1
-        indexes = (slice(xmin,xmax),slice(ymin,ymax),slice(zmin,zmax))
-        bb_shape = (xmax-xmin,ymax-ymin,zmax-zmin)
-    if bbonly:
-        cc = np.zeros((bb_shape), dtype = bool)
-    else:
-        cc = np.zeros(self.shape, dtype = bool)
-    nchild = self.node_array[1,node]
-    if nchild == 0: # node is a leaf
-        if bbonly:
-            cc = (self.node_index[indexes] == node)
-        else:
-            cc[indexes] = (self.node_index[indexes] == node)
-    else:
-        descendants = self.getDescendants(int(node))
-        if bbonly:
-            cc = np.in1d(self.node_index[indexes].ravel(),descendants).reshape(bb_shape)
-        else:
-            cc[indexes] = np.in1d(self.node_index[indexes].ravel(),descendants).reshape(bb_shape)
-    return cc
+       zmin,zmax = self.node_array[12,node], self.node_array[13,node] + 1
+       indexes = (slice(xmin,xmax),slice(ymin,ymax),slice(zmin,zmax))
+    return cc[indexes].astype(bool)
 
+
+
+
+def computeHistogram(self,img,nbins = 256,wimg = [], normalize = True):
+    """
+    This method computes histograms of the max-tree nodes.
+    Input:
+       - img, 2d-array int32. Image used to compute the histograms.
+       - wimg, 2d-array int32. Weight image used in the histogram computation.
+       - nbins, int. Number of histogram bins. It starts in 0 and ends in nbins - 1.
+       - normalize, bool. Flag indicating whether the histogram should be normalized or not. 
+    Output
+       - img, 2d-array float. Histogram array. Each line corresponds to a node histogram.
+    """
+    hist = np.zeros((self.node_array.shape[1],nbins), dtype = np.int32)    
+    if wimg == []:
+        hist[self.node_index,img] += 1
+    else:
+        hist[self.node_index,img] += wimg
+        compute_hist_aux(self.node_array[0],hist)
+    if normalize:
+        hist = hist*1.0/hist.sum(axis = 1).reshape(-1,1) 
+    return hist.astype(float)   

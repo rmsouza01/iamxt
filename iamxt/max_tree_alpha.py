@@ -11,10 +11,6 @@ from max_tree_alpha_aux import compute_height_aux_c, compute_volume_aux_c, compu
                                mms_t_aux_c, mms_mser_aux_c
   
 
-from max_tree_alpha_aux_py import compute_height_aux_py, compute_volume_aux_py, compute_stability_measure_aux_py, \
-                                  compute_extinction_values_aux_py, get_signature_aux_py, extinction_filter_aux_py, \
-                                  mms_t_aux_py, mms_mser_aux_py
-
 from morph_tree_alpha import MorphTreeAlpha
 
                                      
@@ -42,25 +38,15 @@ class MaxTreeAlpha(MorphTreeAlpha):
   mmsT = mmsT
   mmsMSER = mmsMSER
 
-  def __init__(self, img, Bc, implementation = 'c'):
-    MorphTreeAlpha.__init__(self,img, Bc,option = 'max_tree',implementation = implementation)
+  def __init__(self, img, Bc):
+    MorphTreeAlpha.__init__(self,img, Bc,option = 'max_tree')
 
-    if self.implementation == 'c':
-        self.compute_height_aux = compute_height_aux_c
-        self.compute_volume_aux = compute_volume_aux_c
-        self.compute_stability_measure_aux = compute_stability_measure_aux_c
-        self.compute_extinction_values_aux = compute_extinction_values_aux_c
-        self.get_signature_aux = get_signature_aux_c
-        self.extinction_filter_aux = extinction_filter_aux_c
-        self.mms_t_aux = mms_t_aux_c
-        self.mms_mser_aux = mms_mser_aux_c
-    else:
-        self.compute_height_aux = compute_height_aux_py
-        self.compute_volume_aux = compute_volume_aux_py
-        self.compute_stability_measure_aux = compute_stability_measure_aux_py
-        self.compute_extinction_values_aux = compute_extinction_values_aux_py
-        self.get_signature_aux = get_signature_aux_py
-        self.extinction_filter_aux = extinction_filter_aux_py
-        self.mms_t_aux = mms_t_aux_py
-        self.mms_mser_aux = mms_mser_aux_py
-
+    self.compute_height_aux = compute_height_aux_c
+    self.compute_volume_aux = compute_volume_aux_c
+    self.compute_stability_measure_aux = compute_stability_measure_aux_c
+    self.compute_extinction_values_aux = compute_extinction_values_aux_c
+    self.get_signature_aux = get_signature_aux_c
+    self.extinction_filter_aux = extinction_filter_aux_c
+    self.mms_t_aux = mms_t_aux_c
+    self.mms_mser_aux = mms_mser_aux_c
+    
