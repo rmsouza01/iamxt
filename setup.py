@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+	#! /usr/bin/env python
 
 # System imports
 from distutils.core import *
@@ -58,7 +58,7 @@ setup(  name        = "iamxt",
  	author="Roberto M Souza and collaborators",
         author_email="roberto.medeiros.souza@gmail.com",
         description="Max-tree Toolbox for Teaching Image Processing",
-        license="BSD 4 clauses",
+        license="BSD 2-clause License",
         keywords=["image processing", "mathematical morphology","max-tree"],
         url="https://github.com/robertoalotufo/ia636",
         long_description=read('README.txt'),
@@ -67,7 +67,7 @@ setup(  name        = "iamxt",
         "Intended Audience :: Science/Research",
         "Programming Language :: Python and C++ glued with SWIG",
         "Topic :: Scientific/Engineering :: Mathematical Morphology",
-        "License :: BSD 4 clauses",
+        "License :: BSD 2-clause",
         ],
         )
 
