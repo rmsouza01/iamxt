@@ -1,4 +1,5 @@
 *~
 *pyc
 build/
-_aux_wrap.cpp
+_wrap.cpp
+_aux.py
