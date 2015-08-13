@@ -93,82 +93,82 @@ def draw1DImageTree(self, tree = 'mt'):
   pixels_size = 25
   P = self.node_array[0,:]
   H = self.node_array[2,:]
-  Ymin = self.node_array[8,:]
-  Ymax = self.node_array[9,:]
-  Xmin = self.node_array[5,:]
-  Xmax = self.node_array[6,:]
-
+  Ymin = self.node_array[9,:] 
+  Ymax = self.node_array[10,:]
+  Xmin = self.node_array[6,:]
+  Xmax = self.node_array[7,:]
+         
   hmin = H.min()
-  nglevels = H.max() - hmin  + 1  # Number of grey-levels in the 1D input image
+  nglevels = H.max() - hmin  + 1  # Number of grey-levels in the 1D input image 
   npixels = Ymax.max() + 1
-
-  # Pre-allocating an 2d-array to store the tree image
+         
+  # Pre-allocating an 2d-array to store the tree image 
   tree_image = np.ones((nglevels,npixels), dtype = 'uint8')*255
   # Pre-allocating an 2d-array to store the centroids of the tree nodes
-  nodes_image = np.zeros((nglevels,npixels), dtype = 'uint8')
+  nodes_image = np.zeros((nglevels,npixels), dtype = 'uint8') 
   tree_connections = []
-  connection = [0,0,0,0]
+  connection = [0,0,0,0] 
   composite_nodes = []
-  self.getSubBranches(0)
-
+  self.getSubBranches(0)      
+         
   for i in xrange(self._cum_sb_hist.size-1, 0,-1):
     sb =  self._sb[self._cum_sb_hist[i-1]:self._cum_sb_hist[i]]
     for j in sb:
       h = H[j]
       p = P[j]
       hp = H[p] # Grey-level of the parent
-
+                
       ymin,ymax = Ymin[j],Ymax[j]
       LC = self.recConnectedComponent(j).flatten() # Recovered level component
       tree_image[(h - hmin),ymin:ymax+1]= LC[ymin:ymax+1]*h*35.0
-
+               
       ys = (ymin+ymax+1)/2
-
+               
       connection[0] = h - hmin
       connection[1] = ys
-      nodes_image[(h-hmin),ys] = 2
-
-      if hp != (h-1):
-        composite_nodes.append([h-hmin,ys])
+      nodes_image[(h-hmin),ys] = 2 
+               
+      if hp != (h-1):    
+        composite_nodes.append([h-hmin,ys])       
         for k in xrange(hp+1,h):
           tree_image[k - hmin,ymin:ymax+1] = LC[ymin:ymax+1]*k*35.0
           if tree == 'ct':
-            nodes_image[k-hmin,ys] = 2
+            nodes_image[k-hmin,ys] = 2  
             connection[2] = hp - hmin + 1
-            connection[3] = ys
+            connection[3] = ys 
             tree_connections.append(connection[:]) # [:]?
             connection[0] = hp - hmin + 1
             connection[1] = ys
       connection[2] = hp - hmin
-      connection[3] =  (Ymin[p]+Ymax[p]+1)/2
+      connection[3] =  (Ymin[p]+Ymax[p]+1)/2   
       tree_connections.append(connection[:])
-
+         
   tree_image = np.repeat(tree_image,pixels_size, axis = 1)
   tree_image = np.repeat(tree_image,pixels_size, axis = 0)
-
+        
   new_nodes_image = np.zeros((nglevels*pixels_size,npixels*pixels_size), dtype = 'uint8')
   new_nodes_image[pixels_size/2::pixels_size,pixels_size/2::pixels_size] = nodes_image
-
+         
   new_nodes_imagek = (new_nodes_image == 2).astype(np.uint8)
-  disk = np.ones((5,5),np.uint8)
+  disk = np.ones((5,5),np.uint8) 
   new_nodes_imagek = cv2.dilate(new_nodes_imagek,disk,iterations = 1) > 0
-
-
+         
+     
   if tree == 'mt':
     bool_img = tree_image != 255
     bool_img2 = bool_img.copy()
     bool_img2[::2,:] = 0
     for kk in xrange(nglevels-1):
       bool_img[kk*pixels_size:(kk+1)*pixels_size,:] = bool_img[kk*pixels_size:(kk+1)*pixels_size,:] - \
-                                                     bool_img2[(kk+1)*pixels_size:(kk+2)*pixels_size,:]
-      tree_image[~bool_img] = 255
-
+                                                     bool_img2[(kk+1)*pixels_size:(kk+2)*pixels_size,:]  
+      tree_image[~bool_img] = 255 
+    
   tree_image = np.array([tree_image,tree_image,tree_image])
   tree_image[0][new_nodes_imagek] = 255
   tree_image[1][new_nodes_imagek] = 0
   tree_image[2][new_nodes_imagek] = 0
-
-
+        
+          
   if tree == 'mt':
     r = 9
     t = np.arange(0,1.01,.01)*2*np.pi
@@ -176,11 +176,10 @@ def draw1DImageTree(self, tree = 'mt'):
       x,y = pixels_size/2+pixels_size*ii[1],pixels_size/2+pixels_size*ii[0]
       xc = (np.round(r*np.cos(t)) + x).astype(int)
       yc = (np.round(r*np.sin(t)) + y).astype(int)
-      tree_image[0,yc,xc] = 255
-      tree_image[1,yc,xc] = 0
-      tree_image[2,yc,xc] = 0
-
-
+      tree_image[0,yc,xc] = 255 
+      tree_image[1,yc,xc] = 0  
+      tree_image[2,yc,xc] = 0  
+    
   tree_image = tree_image.transpose(1,2,0) 
   tree_image[:,::pixels_size,2] = 0
   tree_image[::pixels_size,:,2] = 0
@@ -200,12 +199,13 @@ def draw1DImageTree(self, tree = 'mt'):
     pt1 = (pixels_size/2+pixels_size*jj[1],pixels_size/2+pixels_size*jj[0])
     pt2 = (pixels_size/2+pixels_size*jj[3],pixels_size/2+pixels_size*jj[2])
     cv2.line(tree_image,pt1,pt2, color = [255,0,0])
-  tree_image = tree_image[::-1,:,:]  
+  tree_image = tree_image[::-1,:,:] 
 
-  
   _ROOT = os.path.abspath(os.path.dirname(__file__))
   text = cv2.imread(os.path.join(_ROOT,'things','grey_levels.png'))
-  return np.concatenate((text[pixels_size*(10-nglevels):,:,:],tree_image), axis = 1)
+  return np.concatenate((text[pixels_size*(10-nglevels):,:,:],tree_image), axis = 1) 
+
+
 
 
 def extinctionFilter(self,ext,n):
