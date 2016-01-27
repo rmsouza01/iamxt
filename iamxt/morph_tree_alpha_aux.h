@@ -28,10 +28,13 @@ void lut_node_index_3d_c(int ,  int *,int ,int ,int , int *);
 
 void remove_node_array_lines_c(int , int *,int ,int ,int *,int ,int ,int *);
 
-int get_bif_ancestor_aux_c(int , int , int  * ,int , int  *);
+int get_bif_ancestor_aux_c(int , int , int * ,int , int *);
 
 void compute_hist_aux_c(int , int *, int , int , int *);
 
 void compute_node_gray_avg_aux_c(int , int *, int , int *, int ,int *,int , double *);
 
 void compute_node_gray_var_aux_c(int , int *, int , int *, int , int *,int , double *);
+
+void compute_eccentricity_aux_c(int, int *, int , int *,int , int *, int , int *,
+                                int , int , int *);
