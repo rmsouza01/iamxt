@@ -2,8 +2,16 @@
 # Module draw_1D_image
 
 import numpy as np
-import gvgen
-import StringIO
+try:
+    import gvgen
+except:
+    print "gvgen not installed, this may cause a problem in drawing functions"
+
+try:
+    import StringIO
+except:
+    print "gvgen not installed, this may cause a problem in drawing functions"
+
 
 def create1DImage(img):
     """
@@ -35,10 +43,10 @@ def create1DImage(img):
     return img1D.transpose(1,2,0) #OpenCV convention H,W,Channel
 
 def extrema2attribute(n, ext):
-
+    
     ext = ext[ext!=0] # Non-zero extinction values
-    temp = np.unique(ext) # Returns non-repeated elements
-    max_ext = temp[-1]	    
+    temp = np.unique(ext) # Returns non-repeated elements sorted
+    max_ext = temp[-1]
     bins = np.zeros(len(temp)+2, dtype = np.int32)
     bins[1:-1] = temp
     bins[-1] = max_ext + 1
@@ -95,9 +103,10 @@ def generateGraph(par,img):
    return dottext
 
 def se2off(Bc):
+    Bc2 = Bc.copy()
     center = np.array(Bc.shape)/2
-    Bc[tuple(center)] = 0
-    off = np.transpose(Bc.nonzero()) - center
+    Bc2[tuple(center)] = 0
+    off = np.transpose(Bc2.nonzero()) - center
     return np.ascontiguousarray(off, dtype = np.int32)
 
 def SSIMIndex(X,Y, k1 = 0.01, k2 = 0.03):

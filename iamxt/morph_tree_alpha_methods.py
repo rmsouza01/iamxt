@@ -3,10 +3,18 @@
 
 import copy
 import numpy as np
-import gvgen
-import StringIO
 import cv2
 import os
+
+try:
+    import gvgen
+except:
+    print "gvgen not installed, this may cause a problem in drawing functions"
+
+try:
+    import StringIO
+except:
+    print "gvgen not installed, this may cause a problem in drawing functions"
 
 
 def bbox(self, dx, dy, dz = 0):
@@ -432,7 +440,64 @@ def computeHistogram(self,img,nbins = 256,wimg = [], normalize = True):
         hist[self.node_index,img] += 1
     else:
         hist[self.node_index,img] += wimg
-        compute_hist_aux(self.node_array[0],hist)
+        self.compute_hist_aux(self.node_array[0],hist)
     if normalize:
         hist = hist*1.0/hist.sum(axis = 1).reshape(-1,1) 
-    return hist.astype(float)   
+    return hist.astype(float)
+
+def getBifAncestor(self, node):
+    return self.get_bif_ancestor_aux(node, self.node_array[0,:],self.node_array[1,:])
+
+def computeNodeGrayAvg(self):
+    """
+    This method computes the gray-level average of
+    the max-tree nodes.
+    """
+    gray_avg = np.zeros(self.node_array.shape[1], dtype = np.float)
+    self.compute_node_gray_avg_aux(self.node_array[0,:],self.node_array[2,:],self.node_array[3,:].copy(),gray_avg)
+    gray_avg = (gray_avg)/self.node_array[3,:]
+    return gray_avg
+
+
+def computeNodeGrayVar(self,gray_avg = None):
+    """
+    This method computes the gray-level standard deviation of
+    the max-tree nodes.
+    """
+    if not gray_avg:
+        gray_avg = self.computeNodeGrayAvg()
+                
+    gray_var = np.zeros(self.node_array.shape[1], dtype = np.float)
+    squared_gray_avg = np.zeros(self.node_array.shape[1], dtype = np.float)
+    self.compute_node_gray_var_aux(self.node_array[0,:],self.node_array[2,:],self.node_array[3,:].copy(),squared_gray_avg)
+    squared_gray_avg = squared_gray_avg/self.node_array[3,:]
+    gray_var = (squared_gray_avg - gray_avg**2)
+    return gray_var
+
+
+def computeEccentricity(self):
+    """
+    This method computes the eccentricity
+    of the max-tree nodes.
+    """
+            
+    xx = np.zeros((self.node_array.shape[1]),dtype = np.int32)
+    yy = np.zeros((self.node_array.shape[1]),dtype = np.int32)
+    xy = np.zeros((self.node_array.shape[1]),dtype = np.int32)
+    par = self.node_array[0,:]
+    self.compute_eccentricity_aux(xx,yy,xy,par,self.node_index)
+    area = self.node_array[3,:]
+    xc = 1.0*self.node_array[5,:]/area
+    yc = 1.0*self.node_array[8,:]/area
+    m20 = 1.0*xx /area - xc**2
+    m02 = 1.0*yy/area - yc**2
+    m11 = 1.0*xy/area - xc*yc
+    aux1 = (m20 + m02)/2
+    aux2 = 4*m11**2 + (m20-m02)**2
+    aux2 = np.sqrt(aux2)/2
+    L1 = aux1 + aux2
+    L2 = aux1 - aux2
+    ecc = np.sqrt(1 - L2/L1)
+    ecc[np.isnan(ecc)] = 1
+    return ecc,L1,L2
+

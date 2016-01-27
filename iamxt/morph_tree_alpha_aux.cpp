@@ -255,4 +255,96 @@ void get_sub_branches_aux_c(int h_par,int *par, int h_nchild, int *nchild,int h_
              index2+=w_na;
              }
           }
-    } 
+    }
+
+
+int get_bif_ancestor_aux_c(int node, int h_par, int  *par ,int h_nchild, int  *nchild ){
+    while(node!= 0 && nchild[par[node]] == 1 ){
+        node = par[node];
+    }
+    return node;
+}
+
+
+void compute_hist_aux_c(int h_par, int *par, int h_hist, int w_hist, int *hist){
+    int par_i, index1,index2;
+    for (int i = h_par-1; i>0;i--){
+        par_i = par[i];
+        index1 = i*w_hist;
+        index2 = par_i*w_hist;
+        
+        for(int j = 0; j < w_hist; j++){
+            hist[index2 + j] +=  hist[index1 + j];
+        }
+    }
+}
+
+
+void compute_node_gray_avg_aux_c(int h1, int *par, int h2, int *h, int h3,
+                                 int *area,int h4, double *gray_avg){
+    
+    for (int i=1; i < h1;i++){
+        area[par[i]]-=area[i];
+    }
+    for (int i=0; i < h1;i++){
+        gray_avg[i]=area[i]*h[i];
+    }
+    
+    for (int i=h1-1; i > 0;i--){
+        gray_avg[par[i]] += gray_avg[i];
+    }
+    
+}
+
+
+void compute_node_gray_var_aux_c(int h1, int *par, int h2, int *h, int h3,
+                                 int *area,int h4, double *squared_gray_avg){
+    
+    int aux;
+    
+    for (int i=1; i < h1;i++){
+        area[par[i]]-=area[i];
+    }
+    for (int i=0; i < h1;i++){
+        aux = h[i];
+        squared_gray_avg[i]=1.0*area[i]*(aux*aux);
+    }
+    
+    for (int i=h1-1; i > 0;i--){
+        squared_gray_avg[par[i]] += squared_gray_avg[i];
+    }
+    
+}
+
+void compute_eccentricity_aux_c(int h1, int *xx, int h2, int *yy, int h3, int *xy,
+                                int h4, int *par, int H, int W, int *node_index){
+    int index;
+    
+    for (int x = 0; x < H; x++){
+        for(int y = 0; y < W;y++){
+            index = node_index[x*W+y];
+            xx[index] += x*x;
+            yy[index] += y*y;
+            xy[index] += x*y;
+        }
+    }
+    
+    for (int i=h4-1; i > 0;i--){
+        index = par[i];
+        xx[index] += xx[i];
+        yy[index] += yy[i];
+        xy[index] += xy[i];
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+

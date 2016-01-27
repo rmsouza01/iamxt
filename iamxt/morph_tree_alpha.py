@@ -8,10 +8,9 @@ from morph_tree_alpha_methods import getImage, clone, recConnectedComponent, com
                                      getDescendants, getSubBranches, prune, contractDR, computeHistogram
                                      
 
-from morph_tree_alpha_aux import get_children_aux_c, get_ancestors_aux_c, get_descendants_aux_c, get_sub_branches_aux_c,\
-                                 prune_aux_c, contract_dr_aux_c, update_nchild_aux_c, remove_node_array_lines_c, \
-                                 rec_connected_component_2d_c, rec_connected_component_3d_c, get_image_aux_2d_c, get_image_aux_3d_c,\
-                                 lut_node_index_3d_c, lut_node_index_2d_c 
+from morph_tree_alpha_aux import get_children_aux_c, get_ancestors_aux_c, get_descendants_aux_c, get_sub_branches_aux_c,prune_aux_c, contract_dr_aux_c, update_nchild_aux_c, \remove_node_array_lines_c, rec_connected_component_2d_c, rec_connected_component_3d_c,\ get_image_aux_2d_c, get_image_aux_3d_c, lut_node_index_3d_c, lut_node_index_2d_c ,\                                       get_bif_ancestor_aux_c, compute_node_gray_avg_aux_c, compute_node_gray_var_aux_c,
+    compute_eccentricity_aux_c, compute_hist_aux_c
+
 from aux import se2off
 
 class MorphTreeAlpha:
@@ -45,6 +44,14 @@ class MorphTreeAlpha:
     prune = prune
     contractDR = contractDR
     computeHistogram = computeHistogram
+    
+    # New 01/27/2016
+    computeHistogram = computeHistogram
+    getBifAncestor = getBifAncestor
+    computeNodeGrayAvg = computeNodeGrayAvg
+    computeNodeGrayVar = computeNodeGrayVar
+    computeEccentricity = computeEccentricity
+    
 
 
     def __init__(self,img = None, Bc = None,option = 'max_tree'):
@@ -79,6 +86,11 @@ class MorphTreeAlpha:
         self.get_image_aux_2d_aux = get_image_aux_2d_c
         self.get_image_aux_3d_aux = get_image_aux_3d_c
         self.lut_node_index_3d_aux = lut_node_index_3d_c
-        self.lut_node_index_2d_aux = lut_node_index_2d_c 
+        self.lut_node_index_2d_aux = lut_node_index_2d_c
 
+        self.get_bif_ancestor_aux = get_bif_ancestor_aux_c
+        self.compute_node_gray_avg_aux = compute_node_gray_avg_aux_c
+        self.compute_node_gray_var_aux = compute_node_gray_var_aux_c
+        self.compute_eccentricity_aux = compute_eccentricity_aux_c
+        self.compute_hist_aux = compute_hist_aux_c
 

@@ -88,4 +88,25 @@ void lut_node_index_3d_c(int DIM1,  int *INPLACE_ARRAY1,int DIM1,int DIM2,int DI
 
 void remove_node_array_lines_c(int DIM1, int *INPLACE_ARRAY1,int DIM1,int DIM2,int *INPLACE_ARRAY2,int DIM1,int DIM2,int *INPLACE_ARRAY2);
 
+int get_bif_ancestor_aux_c(int node, int DIM1, int *INPLACE_ARRAY1,int DIM1, int *INPLACE_ARRAY1);
+
+void compute_hist_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int DIM2, int *INPLACE_ARRAY2);
+
+
+void compute_node_gray_avg_aux_c(int DIM1, int *INPLACE_ARRAY1,int DIM1, int *INPLACE_ARRAY1,
+                                 int DIM1, int *INPLACE_ARRAY1,int DIM1, double *INPLACE_ARRAY1);
+
+
+void compute_node_gray_var_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
+                                 int DIM1, int *INPLACE_ARRAY1, int DIM1, double *INPLACE_ARRAY1
+                                 );
+
+void compute_eccentricity_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
+                                int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
+                                int DIM1, int DIM2, int *INPLACE_ARRAY2);
+
+
+
+
+
 
