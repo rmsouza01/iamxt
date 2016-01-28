@@ -5,7 +5,10 @@ from build_max_tree import build_max_tree
 from morph_tree_alpha_methods import getImage, clone, recConnectedComponent, compact,\
 				     areaOpen, bbox, computeRR, generateCCPathGraph, \
                                      generateCCGraph, generateGraph, getChildren, getAncestors, \
-                                     getDescendants, getSubBranches, prune, contractDR, computeHistogram
+                                     getDescendants, getSubBranches, prune, contractDR, computeHistogram,\
+                                     getBifAncestor, computeNodeGrayAvg, computeNodeGrayVar, \
+                                     computeEccentricity
+    
                                      
 
 from morph_tree_alpha_aux import get_children_aux_c, get_ancestors_aux_c, get_descendants_aux_c, \
@@ -49,7 +52,6 @@ class MorphTreeAlpha:
     computeHistogram = computeHistogram
     
     # New 01/27/2016
-    computeHistogram = computeHistogram
     getBifAncestor = getBifAncestor
     computeNodeGrayAvg = computeNodeGrayAvg
     computeNodeGrayVar = computeNodeGrayVar
