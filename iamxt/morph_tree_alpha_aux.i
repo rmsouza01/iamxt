@@ -30,8 +30,6 @@ void update_nchild_aux_c(int,  int *,int, int *);
 void prune_aux_c(int , int *, int , int *, int ,
                  int *, int , int *);
 
-void compute_hist_aux(int, int *, int, int , int *);
-
 void get_image_aux_2d_c(int,  int *,int,int,int *,int,int,unsigned char *);
     
 void get_image_aux_3d_c(int, int *,int ,int ,int ,int *,int,int , int , unsigned char *);
@@ -82,8 +80,6 @@ void update_nchild_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_A
 
 void prune_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1, int DIM1,
                  int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1);
-
-void compute_hist_aux(int DIM1, int *INPLACE_ARRAY1, int DIM1, int DIM2, int *INPLACE_ARRAY2);
 
 void get_image_aux_2d_c(int DIM1,  int *INPLACE_ARRAY1,int DIM1,int DIM2,int *INPLACE_ARRAY2,
                         int DIM1,int DIM2,unsigned char *INPLACE_ARRAY2);

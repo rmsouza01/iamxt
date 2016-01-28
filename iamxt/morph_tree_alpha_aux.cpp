@@ -130,19 +130,6 @@ void prune_aux_c(int h1, int *lut, int h2, int *to_prune, int h_par, int *par,
     }
 }
 
-void compute_hist_aux(int h_par, int *par, int h_hist, int w_hist, int *hist){
-    int par_i, index1,index2;
-    for (int i = h_par-1; i>0;i--){
-        par_i = par[i];
-        index1 = i*w_hist;
-        index2 = par_i*w_hist;
-        
-        for(int j = 0; j < w_hist; j++){
-            hist[index2 + j] +=  hist[index1 + j];
-        }
-    }
-}
-
 void get_image_aux_2d_c(int h1, int *h,int h2,int w2,int *node_index,int h3,int w3,unsigned char *output_img) {
     
     int N =  h2*w2;

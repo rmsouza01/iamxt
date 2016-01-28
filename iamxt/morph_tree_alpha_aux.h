@@ -12,7 +12,6 @@ void update_nchild_aux_c(int,  int *,int, int *);
 
 void prune_aux_c(int , int *, int , int *, int , int *, int , int *);
 
-void compute_hist_aux(int, int *, int, int , int *);
 
 void get_image_aux_2d_c(int,  int *,int,int,int *,int,int,unsigned char *);
     
