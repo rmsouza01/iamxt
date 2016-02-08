@@ -76,7 +76,7 @@ class MorphTreeAlpha:
         self._cum_sb_hist = []
         self._sb_updated = False
         self.off = se2off(Bc)
-        
+        self.ftype = img.dtype
 
         self.get_children_aux = get_children_aux_c
         self.get_ancestors_aux = get_ancestors_aux_c

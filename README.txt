@@ -12,7 +12,7 @@ suitable for array processing, and allows a fast development of new methods with
 processing time. Our main goal in providing this toolbox is to spread the max-tree data structure
 further among the scientific community, investigate it further, and develop new tools that may
 be applied to solve real signal, image processing, and pattern recognition problems. This toolbox
-works for both 2D and 3D images of type uint8.
+works for both 2D and 3D images of type uint8 and uint16.
 
 Authors
 ---------

@@ -72,21 +72,20 @@ def areaOpen(self, n):
     """
     Contracts all the nodes with area less than 'area'
     """
-    n = n + 1
     area = self.node_array[3,:]
-    self.prune(area < n)
+    self.prune(area <= n)
     return self
 
 def getImage(self):
     """
     This method returns the image corresponding to the tree.
     """
-    out_img = np.empty(self.node_index.shape, dtype = np.uint8)
+    out_img = np.empty(self.node_index.shape, dtype = np.uint16)
     if self.node_index.ndim == 3:
         self.get_image_aux_3d_aux(self.node_array[2],self.node_index,out_img)
     else:
         self.get_image_aux_2d_aux(self.node_array[2],self.node_index,out_img)
-    return out_img
+    return out_img.astype(self.ftype)
 
 
 
@@ -242,8 +241,6 @@ def generateCCGraph(self,s = (100,100), parent_scale = True, LR = False,file_nam
         else:
             xpmin,xpmax = self.node_array[6,i],self.node_array[7,i]
             ypmin,ypmax = self.node_array[9,i],self.node_array[10,i]
-
-        node_image = (self.recConnectedComponent(i)[xpmin:xpmax+1,ypmin:ypmax+1]).astype('uint8')*255
 	node_image = cv2.resize(node_image,(s[1],s[0]))
 
         if parent_scale:
@@ -401,7 +398,6 @@ def recConnectedComponent(self,node, bbonly = False):
     """
         
     seed = self.node_array[4,node]
-    cc = np.zeros(self.shape, dtype = np.uint8)
         
         
     if self.node_index.ndim == 2:

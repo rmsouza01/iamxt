@@ -30,9 +30,9 @@ void update_nchild_aux_c(int,  int *,int, int *);
 void prune_aux_c(int , int *, int , int *, int ,
                  int *, int , int *);
 
-void get_image_aux_2d_c(int,  int *,int,int,int *,int,int,unsigned char *);
+void get_image_aux_2d_c(int,  int *,int,int,int *,int,int,unsigned short *);
     
-void get_image_aux_3d_c(int, int *,int ,int ,int ,int *,int,int , int , unsigned char *);
+void get_image_aux_3d_c(int, int *,int ,int ,int ,int *,int,int , int , unsigned short *);
 
 void rec_connected_component_2d_c(int , int , int ,int ,int *, int ,int , unsigned char *,int ,int , int *);  
 
@@ -82,10 +82,10 @@ void prune_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1, i
                  int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1);
 
 void get_image_aux_2d_c(int DIM1,  int *INPLACE_ARRAY1,int DIM1,int DIM2,int *INPLACE_ARRAY2,
-                        int DIM1,int DIM2,unsigned char *INPLACE_ARRAY2);
+                        int DIM1,int DIM2,unsigned short *INPLACE_ARRAY2);
     
 void get_image_aux_3d_c(int DIM1,  int *INPLACE_ARRAY1,int DIM1,int DIM2,int DIM3,int *INPLACE_ARRAY3,
-                        int DIM1,int DIM2, int DIM3, unsigned char *INPLACE_ARRAY3);
+                        int DIM1,int DIM2, int DIM3, unsigned short *INPLACE_ARRAY3);
 
 void rec_connected_component_2d_c(int node, int seed, int DIM1,int DIM2,int *INPLACE_ARRAY2, int DIM1,int DIM2, 
                                   unsigned char *INPLACE_ARRAY2,int DIM1,int DIM2, int *INPLACE_ARRAY2);  

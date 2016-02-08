@@ -11,7 +11,7 @@ import numpy
 try:
     numpy_include = numpy.get_include()
 except AttributeError:
-    numpy_include = numpy.get_numpy_include()
+    numpy_include = numpy.get_numpy_include() # get_numpy_include()
 
 
 def read(fname):

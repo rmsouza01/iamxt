@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-
-
 from aux import se2off
 import numpy as np
 import max_tree_c_01
@@ -15,9 +13,16 @@ def build_max_tree(f, Bc, option = 0):
     parent[:] = -1
 
     zpar = np.empty(f.size, dtype = np.int32)
+    
+    ftype = f.dtype
+    if (ftype == np.uint8):
+       fu16 = f.astype(np.uint16)
+    else:
+        fu16 = f    
 
-    flat_img = f.ravel()
-    S_rev = max_tree_c_01.counting_sort_c(flat_img)
+    flat_img = fu16.ravel()
+    MAX = flat_img.max()
+    S_rev = max_tree_c_01.counting_sort_c(int(MAX),flat_img)
     if ndim == 2:
         H,W = f.shape
         max_tree_c_01.union_find2d_c(H,W,off,parent,zpar,S_rev,flat_img)
@@ -48,8 +53,13 @@ def compute_area(S,parent):
     max_tree_c_01.compute_area_c(S,parent,area)
     return area
 
-def direct_filter(lambda_,S,parent,img,attr):
-    flat_img = np.ascontiguousarray(img.ravel())
-    out = np.empty(S.size, dtype = np.uint8)
+def direct_filter(lambda_,S,parent,f,attr):
+    ftype = f.dtype
+    if (ftype == np.uint8):
+        fu16 = f.astype(np.uint16)
+    else:
+        fu16 = f
+    flat_img = np.ascontiguousarray(fu16.ravel())
+    out = np.empty(S.size, dtype = np.uint16) # Returning uint16 regardless if the input image type (uint8 or uint16)
     max_tree_c_01.direct_filter_c(lambda_,S,parent,flat_img,out,attr.astype(float))
-    return out.reshape(img.shape)
+    return out.reshape(f.shape).astype(ftype)

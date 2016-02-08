@@ -130,7 +130,7 @@ void prune_aux_c(int h1, int *lut, int h2, int *to_prune, int h_par, int *par,
     }
 }
 
-void get_image_aux_2d_c(int h1, int *h,int h2,int w2,int *node_index,int h3,int w3,unsigned char *output_img) {
+void get_image_aux_2d_c(int h1, int *h,int h2,int w2,int *node_index,int h3,int w3,unsigned short *output_img) {
     
     int N =  h2*w2;
 #pragma omp parallel for shared(output_img,h,N,node_index)
@@ -140,7 +140,7 @@ void get_image_aux_2d_c(int h1, int *h,int h2,int w2,int *node_index,int h3,int 
     
 }
 
-void get_image_aux_3d_c(int h1, int *h,int h2,int w2, int z2,int *node_index,int h3,int w3,int z3, unsigned char *output_img) {
+void get_image_aux_3d_c(int h1, int *h,int h2,int w2, int z2,int *node_index,int h3,int w3,int z3, unsigned short *output_img) {
     
     int N =  h2*w2*z2;
 #pragma omp parallel for shared(output_img,h,N,node_index)

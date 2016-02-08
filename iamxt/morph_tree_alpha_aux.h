@@ -13,9 +13,9 @@ void update_nchild_aux_c(int,  int *,int, int *);
 void prune_aux_c(int , int *, int , int *, int , int *, int , int *);
 
 
-void get_image_aux_2d_c(int,  int *,int,int,int *,int,int,unsigned char *);
+void get_image_aux_2d_c(int,  int *,int,int,int *,int,int,unsigned short *);
     
-void get_image_aux_3d_c(int, int *,int ,int ,int ,int *,int,int , int , unsigned char *);
+void get_image_aux_3d_c(int, int *,int ,int ,int ,int *,int,int , int , unsigned short *);
 
 void rec_connected_component_2d_c(int , int , int ,int ,int *, int ,int , unsigned char *,int ,int , int *);  
 

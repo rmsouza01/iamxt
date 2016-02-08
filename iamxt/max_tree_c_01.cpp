@@ -4,15 +4,14 @@
 
 using namespace std;
 
-#define MAXVALUE 255
-#define RANGE 256
 #define UNDEFINED -1
 
 //ofstream out("log.txt");
 //out << "offset:" << k << endl;
 
-void counting_sort_c(int w1, unsigned char *flat_img,int **sorted_img, int *ww)
+void counting_sort_c(int MAXVALUE,int w1, unsigned short *flat_img,int **sorted_img, int *ww)
 {
+    int RANGE = MAXVALUE + 1;	
     int count[RANGE];
     int *sorted_img2 = new int[w1];
     *ww = w1;
@@ -32,7 +31,7 @@ int find_root(int *par, int p){
 }
 
 
-void canonicalize_c(int h_img, unsigned char *flat_img, int h_par, int *par, int h_S, int *S_rev){
+void canonicalize_c(int h_img, unsigned short *flat_img, int h_par, int *par, int h_S, int *S_rev){
    int q,p;
    for(int i = h_S-1; i > -1 ; i--){
       p = S_rev[i];
@@ -45,7 +44,7 @@ void canonicalize_c(int h_img, unsigned char *flat_img, int h_par, int *par, int
 
 void union_find2d_c(int H,int W, int h_off, int w_off, int *offsets, int h_par,
                   int *parent, int h_zpar, int *zpar, int h_S, int *S_rev,int h_img,
-                  unsigned char *flat_img){
+                  unsigned short *flat_img){
 
    int j = 0;
    int p, n;
@@ -91,7 +90,7 @@ void union_find2d_c(int H,int W, int h_off, int w_off, int *offsets, int h_par,
 S_rev[h_S-1] = parent[S_rev[h_S-1]];
 }
 
-void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned char *flat_img,
+void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned short *flat_img,
                           int h_S, int *S_rev , int H, int W, int *node_index,
                           int **node_array, int *hh, int *ww){
 
@@ -101,7 +100,7 @@ void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned char *flat_im
    int pi,pindex,p;
    int raster,raster2;
    int ncols = 11;
-   unsigned char level;
+   unsigned short level;
 
    int *area = new int[h_S];
    vector<int> sorted_lvroots;
@@ -183,7 +182,7 @@ void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned char *flat_im
 // Union-find implementation with level compression
 void union_find3d_c(int L,int M, int N, int h_off, int w_off, int *offsets, int h_par,
                   int *parent, int h_zpar, int *zpar, int h_S, int *S_rev,
-                  int h_img, unsigned char *flat_img){
+                  int h_img, unsigned short *flat_img){
 
    int j;
    int p; //pixel being processed;
@@ -232,7 +231,7 @@ void union_find3d_c(int L,int M, int N, int h_off, int w_off, int *offsets, int 
 S_rev[h_S-1] = parent[S_rev[h_S-1]];
 }
 
-void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned char *flat_img,
+void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned short *flat_img,
                           int h_SR, int *S_rev , int L, int M, int N, int *node_index,
                           int **node_array, int *hh, int *ww){
 
@@ -245,7 +244,7 @@ void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned char *flat_im
    int raster,raster2;
    int ncols = 14;
 
-   unsigned char level;
+   unsigned short level;
    vector<int> sorted_lvroots;
 
 
@@ -349,7 +348,7 @@ void compute_area_c(int h_S, int *S, int h_parent, int *parent, int h_area, int 
     }
 
 void direct_filter_c(double lamb, int h_S, int *S, int h_parent, int *parent, int h_img,
- unsigned char *flat_img, int h_out, unsigned char *out, int h_attr, double *attr ){
+ unsigned short *flat_img, int h_out, unsigned short *out, int h_attr, double *attr ){
     int p,q,p_root;
     p_root = S[0];
     if (attr[p_root] < lamb)
