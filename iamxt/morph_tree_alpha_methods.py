@@ -396,7 +396,6 @@ def recConnectedComponent(self,node, bbonly = False):
     bbonly -> Flag that indicates wether return the whole 
     image or just the connecetd component bounding-box.
     """
-    print "aqui"
     seed = self.node_array[4,node]
     cc = np.zeros(self.node_index.shape, dtype = np.uint8)
         
