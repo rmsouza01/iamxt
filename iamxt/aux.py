@@ -1,16 +1,16 @@
 # -*- encoding: utf-8 -*-
 # Module draw_1D_image
-
+import warnings
 import numpy as np
 try:
     import gvgen
 except:
-    print "gvgen not installed, this may cause a problem in drawing functions"
+    warnings.warn("gvgen not installed, this may cause a problem in drawing functions")
 
 try:
     import StringIO
 except:
-    print "gvgen not installed, this may cause a problem in drawing functions"
+    warnings.warn("StringIO not installed, this may cause a problem in drawing functions")
 
 
 def create1DImage(img):

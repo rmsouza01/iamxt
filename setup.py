@@ -13,7 +13,6 @@ try:
 except AttributeError:
     numpy_include = numpy.get_numpy_include() # get_numpy_include()
 
-
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
@@ -27,6 +26,17 @@ _max_tree_c_01 = Extension(
             libraries=[],
             swig_opts=['-c++', '-includeall', '-threads', '-keyword'],
         )
+
+_watershed_c =  Extension(
+            '_watershed_c',
+            ['iamxt/watershed_c.cpp', 'iamxt/watershed_c.i'], 
+            include_dirs=[numpy_include], 
+            define_macros=[('NDEBUG', None)],    
+            library_dirs=[],
+            libraries=[],
+            swig_opts=['-c++', '-includeall', '-threads', '-keyword'],
+        )
+
 
 _morph_tree_alpha_aux_c = Extension(
             '_morph_tree_alpha_aux',
@@ -51,7 +61,7 @@ _max_tree_alpha_aux_c = Extension(
 
 setup(  name        = "iamxt",
         version     = "0.1",
-	ext_modules = [_max_tree_c_01,_morph_tree_alpha_aux_c,_max_tree_alpha_aux_c],
+	ext_modules = [_max_tree_c_01,_morph_tree_alpha_aux_c,_max_tree_alpha_aux_c,_watershed_c],
 	packages=['iamxt'],
 	package_data={'iamxt': ['things/grey_levels.png']},
         #data_files=[('iamxt', ['images/cameraman.png', 'images/mri.jpg','images/lena.png','images/lp_image.png','images/itajaiacu.png'])], 
@@ -60,7 +70,7 @@ setup(  name        = "iamxt",
         description="Max-tree Toolbox for Teaching Image Processing",
         license="BSD 2-clause License",
         keywords=["image processing", "mathematical morphology","max-tree"],
-        url="https://github.com/robertoalotufo/ia636",
+        url="https://github.com/rmsouza01/iamxt/tree/16bit/iamxt",
         long_description=read('README.txt'),
         classifiers=[
         "Development Status :: 1 - Alpha",

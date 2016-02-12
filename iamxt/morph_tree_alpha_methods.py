@@ -5,17 +5,17 @@ import copy
 import numpy as np
 import cv2
 import os
+import warnings
 
 try:
     import gvgen
 except:
-    print "gvgen not installed, this may cause a problem in drawing functions"
+    warnings.warn("gvgen not installed, this may cause a problem in drawing functions")
 
 try:
     import StringIO
 except:
-    print "gvgen not installed, this may cause a problem in drawing functions"
-
+    warnings.warn("StringIO not installed, this may cause a problem in drawing functions")
 
 def bbox(self, dx, dy, dz = 0):
     """

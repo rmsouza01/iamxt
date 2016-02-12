@@ -243,15 +243,15 @@ def hmax(self, h, Height = None):
     """
     h = h + 1
     if Height == None:
-        child_height = self.computeHeight() - 1
+        child_height = self.computeHeight()
     else:
-        child_height = Height -1
+        child_height = Height
 
     level = self.node_array[2,:]
     parent = self.node_array[0,:]
     total_height = level - level[parent] + child_height
     self.prune(total_height < h)
-    child_height = child_height[total_height > h]
+    child_height = child_height[total_height >= h]
     self.node_array[2,child_height < h] -= (h - child_height[child_height < h])
     return self
 
