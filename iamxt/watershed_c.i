@@ -21,6 +21,11 @@ void tz_ws_c(int , int ,int , int *, int ,int , int , unsigned short *, int ,int
              int  ,int , int , int *,int  ,int , int , int *,int  ,int , int , int *,
              int  ,int , int , int *);
 
+void window_histogram_aux_c(int ,int , int , int *,
+                                int ,int , int *,
+                                int ,int , int *,
+                                int ,int , int *);
+
 %}
 
 %feature("autodoc", 1);
@@ -42,3 +47,8 @@ void tz_ws_c(int ii32, int DIM1,int DIM2, int *INPLACE_ARRAY2,
              int DIM1,int DIM2, int DIM3, int *INPLACE_ARRAY3,
              int DIM1,int DIM2, int DIM3, int *INPLACE_ARRAY3,
              int DIM1,int DIM2, int DIM3, int *INPLACE_ARRAY3);
+
+void window_histogram_aux_c(int DIM1,int DIM2, int DIM3, int *INPLACE_ARRAY3,
+                                int DIM1,int DIM2, int *INPLACE_ARRAY2,
+                                int DIM1,int DIM2, int *INPLACE_ARRAY2,
+                                int DIM1,int DIM2, int *INPLACE_ARRAY2);

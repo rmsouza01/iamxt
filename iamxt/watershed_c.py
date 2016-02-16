@@ -77,6 +77,10 @@ def ws_markers_c(*args, **kwargs):
 def tz_ws_c(*args, **kwargs):
   """tz_ws_c(int ii32, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1, int DIM1)"""
   return _watershed_c.tz_ws_c(*args, **kwargs)
+
+def window_histogram_aux_c(*args, **kwargs):
+  """window_histogram_aux_c(int DIM1, int DIM1, int DIM1, int DIM1)"""
+  return _watershed_c.window_histogram_aux_c(*args, **kwargs)
 # This file is compatible with both classic and new-style classes.
 
 

@@ -3,6 +3,40 @@ from aux import se2off
 import watershed_c
 import warnings
 
+def window_histogram(f,pl, Bc, bins = []):
+	"""
+	This function computes the histogram for each point in pl
+	in a window defined by Bc.
+	Input:
+	f -> int32:Input image.
+	pl -> int32: points list nx2 or nx3 array
+	Bc -> bool: Structuring element defining the region where the histogram 
+	will be computed.
+	bins -> integer defining the bins range
+	Output:
+	hist -> int32: nxbins array with the histograms of every point in the list 
+	"""
+	
+	if bins == []:
+		bins = f.max()+1
+	ndim = f.ndim
+	if ndim == 2:
+		f = f.reshape(1,f.shape[0],f,shape[1])
+	
+	f = f.astype(np.int32)
+	
+	off = se2off(Bc)
+	if ndim == 2:
+		off = np.concatenate((np.zeros((off.shape[0],1), dtype = np.int32),off), axis = 1)
+		pl  = np.concatenate((np.zeros((pl.shape[0],1), dtype = np.int32),off), axis = 1)
+	
+	hists = np.zeros((pl.shape[0],bins), dtype = np.int32)
+	
+	watershed_c.window_histogram_aux_c(f,off,pl,hists)   
+	return hists
+
+
+
 def ws_markers(img,markers,Bc):
 	"""
 	IFT watershed from markers.

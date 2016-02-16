@@ -237,3 +237,36 @@ void ws_markers_c(int ii32,int H_off,int W_off, int *off,
     } 
 
 
+void window_histogram_aux_c(int L,int M, int N, int *f,
+                            int H_off,int W_off, int *off,
+                            int H1, int W1, int *pl,
+                            int H2,int W2, int *hists){
+        
+        int MN = M*N;
+        int x,y,z;
+        int x_n,y_n,z_n;
+        int q,p;
+        int index1 = 0;
+        int line = 0;
+        
+        for(int ii = 0; ii < H1; ii++){
+            x = pl[index1++];
+            y = pl[index1++];
+            z = pl[index1++];
+            q = x*MN + y*N +z;
+            line = ii*W2;
+            hists[line + f[q]]+=1;
+            
+            
+            for(int k = 0; k < W_off*H_off; k+=W_off){
+                x_n = x + off[k];
+                y_n = y + off[k + 1];
+                z_n = z + off[k + 2];
+                if ((x_n < 0)||(x_n >= L)||(y_n < 0)||(y_n >= M)||(z_n < 0)||(z_n >= N)){
+                    continue;
+                    }   
+                p = x_n*MN + y_n*N +z_n;
+                hists[line + f[p]]+=1;
+                }
+            }
+    } 
