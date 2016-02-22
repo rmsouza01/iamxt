@@ -237,12 +237,12 @@ def getSignature(self,attrib, start, end = 0, cte = 0):
     levels = np.arange(h[end], h[start] + 1, dtype = np.int32)
     return levels, signature
 
-def hmax(self, h, Height = None):
+def hmax(self, h, Height =[]):
     """
     This method implemnets the hmax filter
     """
     h = h + 1
-    if Height == None:
+    if Height == []:
         child_height = self.computeHeight()
     else:
         child_height = Height
