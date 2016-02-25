@@ -454,12 +454,12 @@ def computeNodeGrayAvg(self):
     return gray_avg
 
 
-def computeNodeGrayVar(self,gray_avg = None):
+def computeNodeGrayVar(self,gray_avg = [] ):
     """
     This method computes the gray-level standard deviation of
     the max-tree nodes.
     """
-    if not gray_avg:
+    if gray_avg == []:
         gray_avg = self.computeNodeGrayAvg()
                 
     gray_var = np.zeros(self.node_array.shape[1], dtype = np.float)
