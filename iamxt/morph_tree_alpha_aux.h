@@ -35,5 +35,4 @@ void compute_node_gray_avg_aux_c(int , int *, int , int *, int ,int *,int , doub
 
 void compute_node_gray_var_aux_c(int , int *, int , int *, int , int *,int , double *);
 
-void compute_eccentricity_aux_c(int, int *, int , int *,int , int *, int , int *,
-                                int , int , int *);
+void compute_eccentricity_aux_c(int , double *, int , double *, int , double *, int , int *, int , int , int *);

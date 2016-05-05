@@ -308,27 +308,29 @@ void compute_node_gray_var_aux_c(int h1, int *par, int h2, int *h, int h3,
     
 }
 
-void compute_eccentricity_aux_c(int h1, int *xx, int h2, int *yy, int h3, int *xy,
-                                int h4, int *par, int H, int W, int *node_index){
-    int index;
-    
-    for (int x = 0; x < H; x++){
-        for(int y = 0; y < W;y++){
-            index = node_index[x*W+y];
-            xx[index] += x*x;
-            yy[index] += y*y;
-            xy[index] += x*y;
-        }
-    }
-    
-    for (int i=h4-1; i > 0;i--){
-        index = par[i];
-        xx[index] += xx[i];
-        yy[index] += yy[i];
-        xy[index] += xy[i];
-    }
-    
-}
+ 
+    void compute_eccentricity_aux_c(int h1, double *xx, int h2, double *yy, int h3, double *xy,
+                                    int h4, int *par, int H, int W, int *node_index){
+        int index;
+        int x,y;
+        for (x = 0; x < H; x++){
+            for(y = 0; y < W;y++){
+                index = node_index[x*W+y];
+                xx[index] += x*x;                     
+                yy[index] += y*y;                   
+                xy[index] += x*y;        
+                            
+                } 
+            }    
+        
+        for (int i=h4-1; i > 0;i--){
+            index = par[i];
+            xx[index] += xx[i];
+            yy[index] += yy[i];
+            xy[index] += xy[i];
+         }        
+                
+    } 
 
 
 

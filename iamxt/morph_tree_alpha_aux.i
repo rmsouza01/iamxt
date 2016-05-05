@@ -54,7 +54,7 @@ void compute_node_gray_avg_aux_c(int , int *,int , int *,int, int *,int , double
     
 void compute_node_gray_var_aux_c(int , int *, int , int *,int , int *, int , double *);
     
-void compute_eccentricity_aux_c(int, int *, int , int *,int , int *, int , int *,int , int , int *);
+void compute_eccentricity_aux_c(int , double *, int , double *, int , double *, int , int *, int , int , int *);
     
     
     
@@ -113,8 +113,8 @@ void compute_node_gray_var_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *I
                                  int DIM1, int *INPLACE_ARRAY1, int DIM1, double *INPLACE_ARRAY1
                                  );
 
-void compute_eccentricity_aux_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
-                                int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
+void compute_eccentricity_aux_c(int DIM1, double *INPLACE_ARRAY1, int DIM1, double *INPLACE_ARRAY1,
+                                int DIM1, double *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
                                 int DIM1, int DIM2, int *INPLACE_ARRAY2);
 
 
