@@ -29,35 +29,22 @@ def read(fname):
 _max_tree_c_01 = Extension(
             '_max_tree_c_01',
             ['iamxt/max_tree_c_01.cpp', 'iamxt/max_tree_c_01.i'], 
+            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
             include_dirs=['/usr/local/include/opencv',numpy_include],
             extra_compile_args=["-fopenmp"],
             extra_link_args=["-fopenmp"],
-            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
             library_dirs=[],
             libraries=[],
             swig_opts=['-c++', '-includeall', '-threads', '-keyword'],
         )
-
-_watershed_c =  Extension(
-            '_watershed_c',
-            ['iamxt/watershed_c.cpp', 'iamxt/watershed_c.i'], 
-            include_dirs=[numpy_include], 
-            extra_compile_args=["-fopenmp"],
-            extra_link_args=["-fopenmp"],
-            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],    
-            library_dirs=[],
-            libraries=[],
-            swig_opts=['-c++', '-includeall', '-threads', '-keyword'],
-        )
-
 
 _morph_tree_alpha_aux_c = Extension(
             '_morph_tree_alpha_aux',
             ['iamxt/morph_tree_alpha_aux.cpp', 'iamxt/morph_tree_alpha_aux.i'], 
+            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
             include_dirs=['/usr/local/include/opencv',numpy_include],
             extra_compile_args=["-fopenmp"],
             extra_link_args=["-fopenmp"],
-            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
             library_dirs=[],
             libraries=[],
             swig_opts=['-c++', '-includeall', '-threads', '-keyword'],
@@ -67,10 +54,10 @@ _morph_tree_alpha_aux_c = Extension(
 _max_tree_alpha_aux_c = Extension(
             '_max_tree_alpha_aux',
             ['iamxt/max_tree_alpha_aux.cpp', 'iamxt/max_tree_alpha_aux.i'], 
+            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
             include_dirs=['/usr/local/include/opencv',numpy_include],
             extra_compile_args=["-fopenmp"],
             extra_link_args=["-fopenmp"],
-            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
             library_dirs=[],
             libraries=[],
             swig_opts=['-c++', '-includeall', '-threads', '-keyword'],
@@ -78,7 +65,7 @@ _max_tree_alpha_aux_c = Extension(
 
 setup(  name        = "iamxt",
         version     = "0.1",
-	ext_modules = [_max_tree_c_01,_morph_tree_alpha_aux_c,_max_tree_alpha_aux_c,_watershed_c],
+	ext_modules = [_max_tree_c_01,_morph_tree_alpha_aux_c,_max_tree_alpha_aux_c],
 	packages=['iamxt'],
 	package_data={'iamxt': ['things/grey_levels.png']},
         #data_files=[('iamxt', ['images/cameraman.png', 'images/mri.jpg','images/lena.png','images/lp_image.png','images/itajaiacu.png'])], 
