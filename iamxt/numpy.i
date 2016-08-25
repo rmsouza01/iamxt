@@ -6,6 +6,8 @@
 #  define NO_IMPORT_ARRAY
 #endif
 #include "stdio.h"
+#define NPY_NO_DEPRECATED_API NPY_1_6_API_VERSION
+
 #include <numpy/arrayobject.h>
 
 /* The following code originally appeared in

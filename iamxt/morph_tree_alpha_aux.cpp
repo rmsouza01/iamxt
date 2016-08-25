@@ -23,7 +23,7 @@ void get_descendants_aux_c(int node, int h1, int *children_list, int h2, int *cu
         for(int i = 0; i< nchild; i++) descendants_vector.push_back(children_list[child_of_node++]);
         ndescendants += nchild;
         index++;
-        if (index == descendants_vector.size()) break;
+        if (index == static_cast<int>(descendants_vector.size())) break;
         node = descendants_vector[index];
         
         

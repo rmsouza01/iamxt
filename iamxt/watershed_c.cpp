@@ -20,7 +20,7 @@ using namespace std;
 // in the queue. If there is not it returns -1
 
 int findSubQueue(vector<pair<deque<int>,int> > &HFQ, int key) {
-    for (int i = 0; i < HFQ.size(); i++) {
+    for (int i = 0; i < static_cast<int>(HFQ.size()); i++) {
         if (HFQ[i].second == key)
             return i;
     }
@@ -50,7 +50,7 @@ int DequeueMin(vector<pair<deque<int>,int> > &HFQ){
     int pos = -1;
     
     //Find the index of the lowest cost queue
-    for (int i = 0; i < HFQ.size(); i++) {
+    for (int i = 0; i < static_cast<int>(HFQ.size()); i++) {
         if (HFQ[i].second < key) {
             key = HFQ[i].second;
             pos = i;
@@ -74,7 +74,7 @@ void Dequeue(vector<pair<deque<int>,int> > &HFQ,int p, int cp){
     int pos = findSubQueue(HFQ, cp);
     int element;
     if (pos != -1 && (!HFQ[pos].first.empty())){
-        for (int i = 0; i < HFQ[pos].first.size(); i++){
+        for (int i = 0; i < static_cast<int>(HFQ[pos].first.size()); i++){
             element = HFQ[pos].first[i];
             if (element == p){
                 HFQ[pos].first.erase(HFQ[pos].first.begin()+i);
@@ -99,11 +99,9 @@ void ws_markers_c(int ii32,int H_off,int W_off, int *off,
         vector<pair<deque<int>,int> > HFQ; 
         int size = L*M*N;
         int MN = M*N;
-        int h_p,v,p;
-        int TZ = 0;
+        int v,p;
         int x,y,z,aux;
         int x_n,y_n,z_n;
-        int n;
         unsigned short seg_p;
         int temp1,temp2,c;
 
@@ -169,11 +167,10 @@ void ws_markers_c(int ii32,int H_off,int W_off, int *off,
         vector<pair<deque<int>,int> > HFQ; 
         int size = L*M*N;
         int MN = M*N;
-        int h_p,v,p;
+        int v,p;
         int TZ = 0;
         int x,y,z,aux;
         int x_n,y_n,z_n;
-        int n;
         unsigned short seg_p;
         int temp1,temp2,c;
 

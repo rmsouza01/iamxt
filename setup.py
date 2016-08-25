@@ -4,8 +4,17 @@
 from distutils.core import *
 from distutils      import sysconfig
 
+import os
+
+(opt,) = sysconfig.get_config_vars('OPT')
+os.environ['OPT'] = " ".join(flag for flag in opt.split() if flag != '-Wstrict-prototypes')
+
+
+
+
 # Third-party modules - we depend on numpy for everything
 import numpy
+
 
 # Obtain the numpy include directory.  This logic works across numpy versions.
 try:
@@ -21,7 +30,9 @@ _max_tree_c_01 = Extension(
             '_max_tree_c_01',
             ['iamxt/max_tree_c_01.cpp', 'iamxt/max_tree_c_01.i'], 
             include_dirs=['/usr/local/include/opencv',numpy_include],
-            define_macros=[('NDEBUG', None)],
+            extra_compile_args=["-fopenmp"],
+            extra_link_args=["-fopenmp"],
+            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
             library_dirs=[],
             libraries=[],
             swig_opts=['-c++', '-includeall', '-threads', '-keyword'],
@@ -31,7 +42,9 @@ _watershed_c =  Extension(
             '_watershed_c',
             ['iamxt/watershed_c.cpp', 'iamxt/watershed_c.i'], 
             include_dirs=[numpy_include], 
-            define_macros=[('NDEBUG', None)],    
+            extra_compile_args=["-fopenmp"],
+            extra_link_args=["-fopenmp"],
+            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],    
             library_dirs=[],
             libraries=[],
             swig_opts=['-c++', '-includeall', '-threads', '-keyword'],
@@ -42,7 +55,9 @@ _morph_tree_alpha_aux_c = Extension(
             '_morph_tree_alpha_aux',
             ['iamxt/morph_tree_alpha_aux.cpp', 'iamxt/morph_tree_alpha_aux.i'], 
             include_dirs=['/usr/local/include/opencv',numpy_include],
-            define_macros=[('NDEBUG', None)],
+            extra_compile_args=["-fopenmp"],
+            extra_link_args=["-fopenmp"],
+            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
             library_dirs=[],
             libraries=[],
             swig_opts=['-c++', '-includeall', '-threads', '-keyword'],
@@ -53,7 +68,9 @@ _max_tree_alpha_aux_c = Extension(
             '_max_tree_alpha_aux',
             ['iamxt/max_tree_alpha_aux.cpp', 'iamxt/max_tree_alpha_aux.i'], 
             include_dirs=['/usr/local/include/opencv',numpy_include],
-            define_macros=[('NDEBUG', None)],
+            extra_compile_args=["-fopenmp"],
+            extra_link_args=["-fopenmp"],
+            define_macros=[('NDEBUG', None),('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION')],
             library_dirs=[],
             libraries=[],
             swig_opts=['-c++', '-includeall', '-threads', '-keyword'],

@@ -5,8 +5,10 @@ Summary: Max-tree Toolbox for Teaching Image Processing
 Home-page: https://github.com/robertoalotufo/ia636
 Author: Roberto M Souza and collaborators
 Author-email: roberto.medeiros.souza@gmail.com
-License: BSD 4 clauses
-Description: ==================================
+License: BSD 2-clause
+Description: 
+
+        ==================================
         iamxt: Max-tree Toolbox 
         ==================================
         
