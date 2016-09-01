@@ -95,6 +95,10 @@ def getImage(self):
 
 
 def computeRR(self):
+    """
+    Compute the rectangularity ratio (RR) of the max-tree nodes. RR is defined as the 
+    area (volume) of a connected component divided by the area (volume) of its bounding-box. 
+    """
     xmin,xmax = self.node_array[6,:], self.node_array[7,:] + 1
     ymin,ymax = self.node_array[9,:], self.node_array[10,:] + 1
     area = self.node_array[3,:]
@@ -120,6 +124,9 @@ def prune(self, to_prune):
     self.compact(to_prune,lut)
     return self
 
+# Filterin algorithm proposed in
+# R. Souza, L. Rittner, R. Machado, R. Lotufo: An Array-based Node-Oriented Max-tree Representation.
+# In: International Conference on Image Processing, 2015, Quebec.
 def contractDR(self, to_keep):
     """
     Direct rule for contracting any max-tree nodes marked as False in 'to_keep'.
@@ -138,10 +145,16 @@ def contractDR(self, to_keep):
     return self 
 
 def getAncestors(self, node):
+    """
+    Returns the ancestors of a given node.
+    """
     return self.get_ancestors_aux(node, self.node_array[0,:])
 
 
 def getChildren(self,node = 0):
+    """
+    Returns the children list of a node.
+    """
     if not self._children_updated:
         self._cum_children_hist = self.node_array[1,:].cumsum().astype(np.int32)
         par = self.node_array[0,:]
@@ -155,6 +168,11 @@ def getChildren(self,node = 0):
 
 
 def generateGraph(self, keep = [],nodes_attr = [], LR = False,file_name = "graph" ):
+    """
+    Generates the max-tree graph. You can provide an array containing
+    attributes to be displayed in the graph representation.
+    """
+    
     n_nodes = self.node_array.shape[1]
     h = self.node_array[2,:]
     if keep == []:
@@ -201,6 +219,10 @@ def generateGraph(self, keep = [],nodes_attr = [], LR = False,file_name = "graph
     return
 
 def getDescendants(self, node):
+    """
+    Returns the descendants of a given node.
+    """
+
     if self._children_updated == False:
         self.getChildren()
     if node == 0:
@@ -212,7 +234,12 @@ def getDescendants(self, node):
 
 
 def getSubBranches(self,sb_index = 0):
-
+    """
+    Returns a sub-branch of the max-tree. Sub-branches were defined in
+    R. Souza, L. Ríttner, R. Machado and R. Lotufo, "Maximal Max-tree Simplification," Proceedings of
+    the 22nd International Conference on Pattern Recognition, Stockholm, Sweden, August 2014.
+    """
+    
     if self._sb_updated == False:
         visited = np.zeros(self.node_array.shape[1], dtype = np.int32)
         self._sb = np.zeros_like(visited)
@@ -228,6 +255,10 @@ def getSubBranches(self,sb_index = 0):
 
 
 def generateCCGraph(self,s = (100,100), parent_scale = True, LR = False,file_name = "graph"):
+    """
+    Generates the max-tree graph. Showing the connected components of each node.
+    """
+    
     n_nodes = self.node_array.shape[1]
     G = gvgen.GvGen()
     parents = self.node_array[0,:]
@@ -301,6 +332,11 @@ def generateCCGraph(self,s = (100,100), parent_scale = True, LR = False,file_nam
 
 def generateCCPathGraph(self,start, end = 0, s = (100,100), parent_scale = True, \
                         composite_nodes = True, LR = False,file_name = "graph"):
+    """
+    Generates the graph of a max-tree path.
+    """
+    
+
     G = gvgen.GvGen()
     parents = self.node_array[0,:]
     h = self.node_array[2,:]
@@ -446,6 +482,10 @@ def computeHistogram(self,img,nbins = 256,wimg = [], normalize = True):
     return hist.astype(float)
 
 def getBifAncestor(self, node):
+    """
+    This method returns the first ancestor immediately after a bifurcation of a given node.
+    """
+    
     return self.get_bif_ancestor_aux(node, self.node_array[0,:],self.node_array[1,:])
 
 def computeNodeGrayAvg(self):

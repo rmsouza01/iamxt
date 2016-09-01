@@ -5,15 +5,15 @@
 
 #include <iostream>
 #include <vector>
-//#include <fstream>
 
 using namespace std;
 
 #define UNDEFINED -1
 
-//ofstream out("log.txt");
-//out << "offset:" << k << endl;
 
+
+// Implementation of the countung sort algorithm
+// It sorts an array of inetgers (low quantized) in linear time
 void counting_sort_c(int MAXVALUE,int w1, unsigned short *flat_img,int **sorted_img, int *ww)
 {
     int RANGE = MAXVALUE + 1;	
@@ -24,18 +24,27 @@ void counting_sort_c(int MAXVALUE,int w1, unsigned short *flat_img,int **sorted_
     for(int i = 0; i < RANGE; i++) count[i] = 0;
     for(int i = 0; i < w1; i++) count[MAXVALUE - flat_img[i]]++; // histogram computation
     for(int i = 1; i < RANGE; i++) count[i] += count[i-1]; // Acumulated histogram
-    for(int i = w1-1;  i>=0; i--)  sorted_img2 [--count[MAXVALUE - flat_img[i]]] = i;
+    for(int i = w1-1;  i>=0; i--)  sorted_img2 [--count[MAXVALUE - flat_img[i]]] = i; //Sorting
 }
+
+
+//Max-tree construction algorithm. This is a verbatim implementation of the max-tree
+// algorithm with level compression presented in the paper: E. Carlinet, T. Geraud, 
+//"A Comparative Review of Component Tree Computation Algorithms," Image 
+//Processing, IEEE Transactions on , vol.23, no.9, pp.3885,3895, Sept. 2014. 
+
 
 
 int find_root(int *par, int p){
 	
    if (par[p] != p)
-      par[p] = find_root(par,par[p]);
+      par[p] = find_root(par,par[p]); // find node level-root
    return par[p];
 }
 
 
+
+// Performs tree canocalization
 void canonicalize_c(int h_img, unsigned short *flat_img, int h_par, int *par, int h_S, int *S_rev){
    int q,p;
    for(int i = h_S-1; i > -1 ; i--){
@@ -46,7 +55,7 @@ void canonicalize_c(int h_img, unsigned short *flat_img, int h_par, int *par, in
 }
 
 
-
+// Max-tree with level compression algorithm for 2D images
 void union_find2d_c(int H,int W, int h_off, int w_off, int *offsets, int h_par,
                   int *parent, int h_zpar, int *zpar, int h_S, int *S_rev,int h_img,
                   unsigned short *flat_img){
@@ -95,6 +104,65 @@ void union_find2d_c(int H,int W, int h_off, int w_off, int *offsets, int h_par,
 S_rev[h_S-1] = parent[S_rev[h_S-1]];
 }
 
+
+// Max-tree with level compression algorithm for 2D images
+void union_find3d_c(int L,int M, int N, int h_off, int w_off, int *offsets, int h_par,
+                  int *parent, int h_zpar, int *zpar, int h_S, int *S_rev,
+                  int h_img, unsigned short *flat_img){
+
+   int j;
+   int p; //pixel being processed;
+   int n; // neighbor of the pixel beinf processed
+   int x,y,z; // coordinates of the pixel being processed
+   int x_n,y_n,z_n; // coordinates of the neighbor of thepixel being processed
+   int zp,zn;
+   int aux;
+   int MN = M*N;
+   j = 0;
+
+   for(int i = 0; i < h_S; i++){
+      p = S_rev[i];
+      parent[p] = p;
+      zpar[p] = p;
+      zp = p;
+      x = p/MN;
+      aux = (p-x*MN);
+      y = aux/N;
+      z = (aux)%N;
+
+      for(int k = 0; k < w_off*h_off; k+=w_off){
+         x_n = x + offsets[k];
+         y_n = y + offsets[k + 1];
+         z_n = z + offsets[k + 2];
+         if ((x_n >= 0) &&  (x_n < L) &&  (y_n >= 0) &&  (y_n < M) &&
+             (z_n >= 0) &&  (z_n < N)) {
+            n = x_n*MN + y_n*N +z_n;
+            if (parent[n]!= UNDEFINED){
+               zn = find_root(zpar,n);
+               if (zn!= zp){
+                  if (flat_img[zp] == flat_img[zn]){
+                     aux = zn;
+                     zn = zp;
+                     zp = aux;
+                  }
+                  zpar[zn] = zp;
+                  parent[zn] = zp;
+                  S_rev[j] = zn;
+                  j++;
+               }
+            }
+         }
+      }
+   }
+S_rev[h_S-1] = parent[S_rev[h_S-1]];
+}
+
+
+// Verbatim implementation of the node array/node index representation proposed
+// in R. Souza, L. Rittner, R. Machado, R. Lotufo: An Array-based Node-Oriented
+// Max-tree Representation. In: International Conference on Image Processing, 2015, Quebec.
+
+//For 2D images
 void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned short *flat_img,
                           int h_S, int *S_rev , int H, int W, int *node_index,
                           int **node_array, int *hh, int *ww){
@@ -184,58 +252,8 @@ void computeNodeArray2d_c(int h_par, int *par, int h_img, unsigned short *flat_i
 }
 
 
-// Union-find implementation with level compression
-void union_find3d_c(int L,int M, int N, int h_off, int w_off, int *offsets, int h_par,
-                  int *parent, int h_zpar, int *zpar, int h_S, int *S_rev,
-                  int h_img, unsigned short *flat_img){
 
-   int j;
-   int p; //pixel being processed;
-   int n; // neighbor of the pixel beinf processed
-   int x,y,z; // coordinates of the pixel being processed
-   int x_n,y_n,z_n; // coordinates of the neighbor of thepixel being processed
-   int zp,zn;
-   int aux;
-   int MN = M*N;
-   j = 0;
-
-   for(int i = 0; i < h_S; i++){
-      p = S_rev[i];
-      parent[p] = p;
-      zpar[p] = p;
-      zp = p;
-      x = p/MN;
-      aux = (p-x*MN);
-      y = aux/N;
-      z = (aux)%N;
-
-      for(int k = 0; k < w_off*h_off; k+=w_off){
-         x_n = x + offsets[k];
-         y_n = y + offsets[k + 1];
-         z_n = z + offsets[k + 2];
-         if ((x_n >= 0) &&  (x_n < L) &&  (y_n >= 0) &&  (y_n < M) &&
-             (z_n >= 0) &&  (z_n < N)) {
-            n = x_n*MN + y_n*N +z_n;
-            if (parent[n]!= UNDEFINED){
-               zn = find_root(zpar,n);
-               if (zn!= zp){
-                  if (flat_img[zp] == flat_img[zn]){
-                     aux = zn;
-                     zn = zp;
-                     zp = aux;
-                  }
-                  zpar[zn] = zp;
-                  parent[zn] = zp;
-                  S_rev[j] = zn;
-                  j++;
-               }
-            }
-         }
-      }
-   }
-S_rev[h_S-1] = parent[S_rev[h_S-1]];
-}
-
+//For 3D images
 void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned short *flat_img,
                           int h_SR, int *S_rev , int L, int M, int N, int *node_index,
                           int **node_array, int *hh, int *ww){
@@ -339,35 +357,5 @@ void computeNodeArray3d_c(int h_par, int *par, int h_img, unsigned short *flat_i
    delete[] area;
 }
 
-void compute_area_c(int h_S, int *S, int h_parent, int *parent, int h_area, int *area){
-    int p,q,p_root;
-    p_root = S[0];
 
-    for (int i = h_S -1; i>-1; i--){
-        p = S[i];
-        if (p != p_root){
-            q = parent[p];
-            area[q]+= area[p];
-            }
-        }
-    }
 
-void direct_filter_c(double lamb, int h_S, int *S, int h_parent, int *parent, int h_img,
- unsigned short *flat_img, int h_out, unsigned short *out, int h_attr, double *attr ){
-    int p,q,p_root;
-    p_root = S[0];
-    if (attr[p_root] < lamb)
-        out[p_root] = 0;
-    else
-        out[p_root] = flat_img[p_root];
-    for (int i = 0; i < h_S; i++){
-        p = S[i];
-        q = parent[p];
-        if (flat_img[q] == flat_img[p])
-            out[p] = out[q];
-        else if (attr[p] < lamb)
-            out[p] = out[q];
-        else
-            out[p] = flat_img[p];
-    }
-}

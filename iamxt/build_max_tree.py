@@ -8,16 +8,17 @@ from aux import se2off
 import numpy as np
 import max_tree_c_01
 
+# Max-tree construction
 def build_max_tree(f, Bc, option = 0):
 
     ndim = f.ndim
-    off = se2off(Bc) # Array of offsets
+    off = se2off(Bc) # Array of offsets that defines the structuring element
 
     parent = np.empty(f.size, dtype = np.int32)
-    parent[:] = -1
+    parent[:] = -1 # parent array
 
-    zpar = np.empty(f.size, dtype = np.int32)
-    
+    zpar = np.empty(f.size, dtype = np.int32) #auxiliary array to store level roots
+
     ftype = f.dtype
     if (ftype == np.uint8):
        fu16 = f.astype(np.uint16)
@@ -26,7 +27,9 @@ def build_max_tree(f, Bc, option = 0):
 
     flat_img = fu16.ravel()
     MAX = flat_img.max()
-    S_rev = max_tree_c_01.counting_sort_c(int(MAX),flat_img)
+    S_rev = max_tree_c_01.counting_sort_c(int(MAX),flat_img) #image sorting
+
+    #Max-tree construction	
     if ndim == 2:
         H,W = f.shape
         max_tree_c_01.union_find2d_c(H,W,off,parent,zpar,S_rev,flat_img)
@@ -37,14 +40,16 @@ def build_max_tree(f, Bc, option = 0):
         print "Invalid option"
         return
 
+    # Tree canocalization
     max_tree_c_01.canonicalize_c(flat_img,parent,S_rev)
 
+	
     if option == 0:
-        return parent,S_rev
+        return parent,S_rev # returns usual max-tree representation
     else:
         node_index = np.empty(f.shape, dtype = np.int32)
         node_index[:] = -1
-        if ndim == 2:
+        if ndim == 2: # node array/node index representation
             node_array = max_tree_c_01.computeNodeArray2d_c(parent,flat_img,S_rev,node_index)
         else:
             node_array = max_tree_c_01.computeNodeArray3d_c(parent,flat_img,S_rev,node_index)
@@ -52,18 +57,4 @@ def build_max_tree(f, Bc, option = 0):
         node_array = node_array.T.copy()
         return parent,S_rev,node_array,node_index
 
-def compute_area(S,parent):
-    area = np.ones(S.size, dtype = np.int32)
-    max_tree_c_01.compute_area_c(S,parent,area)
-    return area
 
-def direct_filter(lambda_,S,parent,f,attr):
-    ftype = f.dtype
-    if (ftype == np.uint8):
-        fu16 = f.astype(np.uint16)
-    else:
-        fu16 = f
-    flat_img = np.ascontiguousarray(fu16.ravel())
-    out = np.empty(S.size, dtype = np.uint16) # Returning uint16 regardless if the input image type (uint8 or uint16)
-    max_tree_c_01.direct_filter_c(lambda_,S,parent,flat_img,out,attr.astype(float))
-    return out.reshape(f.shape).astype(ftype)

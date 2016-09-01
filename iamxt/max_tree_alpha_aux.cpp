@@ -8,12 +8,15 @@
 
 using namespace std;
 
+// computes maximum between to integers
 inline int mymaximum(int val1, int val2){
    if (val1 >= val2)
       return val1;
    else
       return val2;
 }
+
+
 
 void compute_height_aux_c(int h1, int *par, int h2, int *delta, int h3, int *height){
    int parent_i;
