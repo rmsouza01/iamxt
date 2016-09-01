@@ -1,5 +1,10 @@
 #! /usr/bin/env python
 
+# BSD 2-Clause License
+# Copyright (c) 2016, Roberto Souza and collaborators
+# All rights reserved.
+
+
 # System imports
 from distutils.core import *
 from distutils      import sysconfig

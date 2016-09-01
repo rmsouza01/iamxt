@@ -1,3 +1,7 @@
+/*
+BSD 2-Clause License
+Copyright (c) 2016, Roberto Souza and collaborators
+All rights reserved. */
 %module morph_tree_alpha_aux
 %{
 #define SWIG_FILE_WITH_INIT

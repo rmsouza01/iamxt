@@ -1,5 +1,8 @@
 # -*- encoding: utf-8 -*-
 
+# BSD 2-Clause License
+# Copyright (c) 2016, Roberto Souza and collaborators
+# All rights reserved.
 
 import numpy as np
 import cv2

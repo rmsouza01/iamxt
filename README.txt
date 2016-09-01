@@ -2,6 +2,11 @@
 iamxt: Max-tree Toolbox 
 ==================================
 
+BSD 2-Clause License
+Copyright (c) 2016, Roberto Souza and collaborators
+All rights reserved.
+
+
 Description
 -----------
 

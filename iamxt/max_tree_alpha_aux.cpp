@@ -1,3 +1,7 @@
+//BSD 2-Clause License
+//Copyright (c) 2016, Roberto Souza and collaborators
+//All rights reserved. 
+
 #include <iostream>
 #include <vector>
 #include <math.h>

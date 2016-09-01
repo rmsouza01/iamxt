@@ -1,5 +1,9 @@
 # -*- encoding: utf-8 -*-
 
+# BSD 2-Clause License
+# Copyright (c) 2016, Roberto Souza and collaborators
+# All rights reserved.
+
 from aux import se2off
 import numpy as np
 import max_tree_c_01

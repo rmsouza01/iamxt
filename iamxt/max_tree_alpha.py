@@ -1,6 +1,11 @@
 # -*- encoding: utf-8 -*-
-# Module max_tree_alpha
 
+# BSD 2-Clause License
+# Copyright (c) 2016, Roberto Souza and collaborators
+# All rights reserved.
+
+
+# Module max_tree_alpha
 
 from max_tree_alpha_methods import draw1DImageTree, vmax, hmax, computeHeight, computeVolume, computeStabilityMeasure,\
                                    computeExtinctionValues, getSignature, extinctionFilter, mmsT, mmsMSER 

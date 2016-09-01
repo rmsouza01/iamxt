@@ -5,7 +5,11 @@ Summary: Max-tree Toolbox for Teaching Image Processing
 Home-page: https://github.com/robertoalotufo/ia636
 Author: Roberto M Souza and collaborators
 Author-email: roberto.medeiros.souza@gmail.com
-License: BSD 2-clause
+
+BSD 2-Clause License
+Copyright (c) 2016, Roberto Souza and collaborators
+All rights reserved.
+
 Description: 
 
         ==================================
@@ -72,4 +76,4 @@ Classifier: Development Status :: 1 - Alpha
 Classifier: Intended Audience :: Science/Research
 Classifier: Programming Language :: Python and C++ glued with SWIG
 Classifier: Topic :: Scientific/Engineering :: Mathematical Morphology
-Classifier: License :: BSD 4 clauses
+Classifier: License :: BSD 2-clause

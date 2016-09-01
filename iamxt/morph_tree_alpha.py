@@ -1,4 +1,9 @@
 # -*- encoding: utf-8 -*-
+
+# BSD 2-Clause License
+# Copyright (c) 2016, Roberto Souza and collaborators
+# All rights reserved.
+
 # Module morph_tree_alpha
 
 from build_max_tree import build_max_tree

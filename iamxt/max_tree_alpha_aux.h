@@ -1,3 +1,8 @@
+//BSD 2-Clause License
+//Copyright (c) 2016, Roberto Souza and collaborators
+//All rights reserved. 
+
+
 void compute_height_aux_c(int , int *, int , int *, int , int *);
 
 void compute_volume_aux_c(int , int *, int , int *,

@@ -1,3 +1,7 @@
+//BSD 2-Clause License
+//Copyright (c) 2016, Roberto Souza and collaborators
+//All rights reserved. 
+
 void get_descendants_aux_c(int node, int , int *, int , int *, int **, int *);
 
 void get_ancestors_aux_c(int node, int , int *,int **, int *);

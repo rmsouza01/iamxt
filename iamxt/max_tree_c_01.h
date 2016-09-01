@@ -1,3 +1,7 @@
+//BSD 2-Clause License
+//Copyright (c) 2016, Roberto Souza and collaborators
+//All rights reserved. 
+
 void counting_sort_c(int, int , unsigned short *, int **, int *);
 
 void canonicalize_c(int , unsigned short *, int , int *,
