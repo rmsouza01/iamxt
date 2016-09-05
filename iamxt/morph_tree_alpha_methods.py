@@ -61,10 +61,6 @@ def compact(self, to_remove, lut):
     else:    
         self.lut_node_index_2d_aux(lut,self.node_index)
         
-    #self.node_array = self.node_array[:,~to_remove]
-    #if not self.node_array.flags.contiguous:
-    #    self.node_array = np.ascontiguousarray(self.node_array, dtype = np.int32)
-        
     nodes_kept = np.nonzero(~to_remove)[0].astype(np.int32)
     new_node_array = np.empty((self.node_array.shape[0],nodes_kept.size), dtype = np.int32)    
     self.remove_node_array_lines_aux(nodes_kept,new_node_array,self.node_array)
@@ -289,7 +285,6 @@ def generateCCGraph(self,s = (100,100), parent_scale = True, LR = False,file_nam
                 bool_image[ymin:ymax+1,xmax] = 1
                 bool_image[ymin,xmin:xmax+1] = 1
                 bool_image[ymax,xmin:xmax+1] = 1
-                #node_image = ia870.iagshow(node_image,bool_image)
                 node_image = np.array([node_image,node_image,node_image])
                 node_image[0][bool_image] = 255
                 node_image[1][bool_image] = 0
@@ -370,7 +365,6 @@ def generateCCPathGraph(self,start, end = 0, s = (100,100), parent_scale = True,
                 bool_image[ymin:ymax+1,xmax] = 1
                 bool_image[ymin,xmin:xmax+1] = 1
                 bool_image[ymax,xmin:xmax+1] = 1
-                #node_image = ia870.iagshow(node_image,bool_image)
                 node_image = np.array([node_image,node_image,node_image])
                 node_image[0][bool_image] = 255
                 node_image[1][bool_image] = 0

@@ -105,7 +105,7 @@ S_rev[h_S-1] = parent[S_rev[h_S-1]];
 }
 
 
-// Max-tree with level compression algorithm for 2D images
+// Max-tree with level compression algorithm for 3D images
 void union_find3d_c(int L,int M, int N, int h_off, int w_off, int *offsets, int h_par,
                   int *parent, int h_zpar, int *zpar, int h_S, int *S_rev,
                   int h_img, unsigned short *flat_img){

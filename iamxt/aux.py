@@ -47,7 +47,17 @@ def create1DImage(img):
     img1D[1,:,-1] = 255
     return img1D.transpose(1,2,0) #OpenCV convention H,W,Channel
 
+#This function implements the algorithm described in:
+# R. Souza, L. Rittner, R. Machado, R. Lotufo: A comparison between extinction
+# filters and attribute filters. In: International Symposium on Mathematical
+# Morphology, 2015, Reykjavik.
 def extrema2attribute(n, ext):
+    """
+    This method computes the attribute parameter to be used in the attribute
+    filter that tries to preserve n extrema in the image. If it is not possible  
+    to preserve n extrema, it will give preserve the closest value from n from
+    below. 
+    """
     
     ext = ext[ext!=0] # Non-zero extinction values
     temp = np.unique(ext) # Returns non-repeated elements sorted
@@ -65,7 +75,16 @@ def extrema2attribute(n, ext):
 
 
 def generateGraph(par,img):
-
+   """
+   This method generates the graphviz code to draw the the pixel oriented
+   max-tree. 
+   Input: 
+   - par, 1d-array, int32. Parent array.
+   - img, 2d-array, uint8. Image.
+   Output:
+   - graphviz_tree, str. String containing the graphviz code that will be used to
+     draw the pixel oriented max-tree.
+   """
    f = img.ravel()
    G = gvgen.GvGen()
    G.styleAppend("levroot", "color", "red")
@@ -107,34 +126,17 @@ def generateGraph(par,img):
    dottext = fd.getvalue()
    return dottext
 
+
+
 def se2off(Bc):
+    """
+    This method returns the array of offsets corresponding to the structuring
+    element Bc.
+    """
     Bc2 = Bc.copy()
     center = np.array(Bc.shape)/2
     Bc2[tuple(center)] = 0
     off = np.transpose(Bc2.nonzero()) - center
     return np.ascontiguousarray(off, dtype = np.int32)
 
-def SSIMIndex(X,Y, k1 = 0.01, k2 = 0.03):
-    """
-    Structural similarity index. Implementation based on the paper: Image Quality Assessment:
-    From Error Visibility to Structural Similarity. k1 = 0.01, k2 = 0.03 are the
-    default values used in the paper.
-    """
 
-    X = X.astype(float)
-    Y = Y.astype(float)
-
-    mu_x = X.mean()
-    mu_y = Y.mean()
-
-    sigma_xy = 1.0/(X.size - 1)*((X.ravel() - mu_x)*(Y.ravel() - mu_y)).sum()
-    sigma_y = 1.0/(Y.size - 1)*((Y.ravel() - mu_y)** 2).sum()
-    sigma_y = np.sqrt(sigma_y)
-    sigma_x = 1.0/(X.size - 1)*((X.ravel() - mu_x)** 2).sum()
-    sigma_x = np.sqrt(sigma_x)
-
-    C1 = (k1*255)*(k1*255)
-    C2 = (k2*255)*(k2*255)
-    ssim = (2*mu_x*mu_y + C1)*(2*sigma_xy + C2)/((mu_x*mu_x + mu_y*mu_y + C1)\
-           *(sigma_x*sigma_x + sigma_y*sigma_y + C2))
-    return ssim

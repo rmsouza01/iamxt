@@ -93,6 +93,10 @@ def computeStabilityMeasure(self, delta = 5):
 
 
 def draw1DImageTree(self, tree = 'mt'):
+  """
+  This method draws the max-tree or component tree of 1D images with grey-levels
+  varying between 0 and 7.
+  """ 
   pixels_size = 25
   P = self.node_array[0,:]
   H = self.node_array[2,:]
@@ -277,6 +281,13 @@ def vmax(self, vol,V = None):
     child_volume = child_volume[total_volume > vol]
     self.node_array[2,child_volume < vol] -= (vol - child_volume[child_volume < vol]) / area[child_volume < vol]
     return self
+
+
+
+#Implementation of the maximal max-tree simplification filter proposed in:
+# R. Souza, L. Ríttner, R. Machado and R. Lotufo, "Maximal Max-tree
+# Simplification," Proceedings of the 22nd International Conference on Pattern
+#  Recognition, Stockholm, Sweden, August 2014.
 
 def mmsMSER(self,stability_measure):
     if not self._sb_updated:

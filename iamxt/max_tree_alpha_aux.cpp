@@ -17,7 +17,7 @@ inline int mymaximum(int val1, int val2){
 }
 
 
-
+// auxiliary method for computing height of the nodes
 void compute_height_aux_c(int h1, int *par, int h2, int *delta, int h3, int *height){
    int parent_i;
    for(int i = (h1-1); i > 0; i--){
@@ -26,6 +26,7 @@ void compute_height_aux_c(int h1, int *par, int h2, int *delta, int h3, int *hei
    }
 }
 
+// auxiliary method for computing volume of the nodes
 void compute_volume_aux_c(int h1, int *par, int h2, int *delta, int h3, int *area, int h4, int *volume){
    
    for(int i = (h1-1); i > 0; i--){
@@ -33,6 +34,12 @@ void compute_volume_aux_c(int h1, int *par, int h2, int *delta, int h3, int *are
       }
    }
 
+
+// auxiliary method for computing extinction values of the nodes
+// implementation of the algorithm proposed in:
+// A. Silva and R. Lotufo. New extinction values from efficient construction and 
+// analysis of extended attribute component tree. In XXI Brazilian Symposium on 
+// Computer Graphics and Image Processing, 2008. SIBGRAPI ’08., pages 204–211, 2008.
 void compute_extinction_values_aux_c(int h1, int *par, int h2, int *attrib, int h3,
                                      int *leaves,int h4, int *ichmax, int h5,
                                      int *achmax, int h6, int *ext_values){
@@ -62,7 +69,7 @@ void compute_extinction_values_aux_c(int h1, int *par, int h2, int *attrib, int 
    }
 }
 
-
+// Computes MSER stability from max-tree nodes 
 void compute_stability_measure_aux_c(int h_par, int *par, int h_level, int *level, int h_area,
                                      int *area, int h2, int *nlevels,int h3, int *nodes_list,
                                      int h4, double *stability_measure, int delta, int hmin) {
@@ -86,6 +93,10 @@ void compute_stability_measure_aux_c(int h_par, int *par, int h_level, int *leve
       }
    }
 
+
+
+// auxiliary method for computing signatures. It considers the composite nodes 
+// properly
 void get_signature_aux_c(int h1, int *par, int h2, int *h, int h3, int *area,
                          int h4, int *attrib, int **signature, int *h5,
                          int start, int end, int cte){
@@ -123,11 +134,12 @@ void extinction_filter_aux_c(int h1, int *to_remove, int h_ii, int *ii, int h_pa
 
    int node, par_node;
    to_remove[0] = 0;
-   for (int j = 0; j < h_ii; j++){
-      node = ii[j];
+   for (int j = 0; j < h_ii; j++){ //goes through the n leaves with highest
+                                   // extinction values
+      node = ii[j]; 
       par_node = par[node];
       while(to_remove[node]!= 0){
-         to_remove[node] = 0;
+         to_remove[node] = 0; // marks nodes to be kept
          node = par_node;
          par_node = par[node];
       }
@@ -139,11 +151,11 @@ void mms_mser_aux_c(int h1, double *stability_measure,int h2, int *to_keep,int h
    int node,next_node;
    int j = 0;
    double stability, next_stability;
-
+   // goes through all nodes except the root
    for(int i = 0; i < h4-2; i++){
       node = sub_branches[sb_cum_hist[i]];
       stability = stability_measure[node];
-      for(int k = (sb_cum_hist[i] + 1); k < sb_cum_hist[i+1]; k++){
+      for(int k = (sb_cum_hist[i] + 1); k < sb_cum_hist[i+1]; k++){ // goes through each sub-branch
          next_node = sub_branches[k];
          next_stability = stability_measure[next_node];
          if (next_stability < stability){
@@ -151,7 +163,7 @@ void mms_mser_aux_c(int h1, double *stability_measure,int h2, int *to_keep,int h
             stability = next_stability;
             }
          }
-      to_keep[j] = node;
+      to_keep[j] = node; // marks node with highest stability to be kept
       j++;
          }
    }
@@ -164,8 +176,8 @@ void mms_t_aux_c(double t, int h1, int *nlevels, int h_level, int *level, int h2
    int h_sb,node, start_node;
    int ww, kk;
    double h_new;
-
-   for(int i = 0; i < h5-2; i++){
+   // goes through all nodes except the root
+   for(int i = 0; i < h5-2; i++){ // goes through each sub-branch
       start_node = sub_branches[sb_cum_hist[i+1] -1];
       for(int k = sb_cum_hist[i]; k < sb_cum_hist[i+1]; k++){
          node = sub_branches[k];
