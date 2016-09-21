@@ -318,3 +318,26 @@ def mmsT(self, t = 0.5):
     self.contractDR(bool_tokeep)
     return
 
+def areaDifference(self,AD):
+    """
+    Implementation of the area difference filter proposed by Tavares et al.
+    """    
+    n = self.node_array.shape[-1]
+    parent = self.node_array[0, :] 
+    area = self.node_array[3, :]
+    to_keep = np.zeros(n, dtype = np.int32)
+    self.area_difference_aux(AD,parent,area,to_keep)
+    self.contractDR(to_keep>0)
+    return self
+
+
+def progAreaDifference(self, AD):
+    parent = self.node_array[0, :] 
+    area = self.node_array[3, :]
+    to_keep = np.zeros(self.node_array.shape[-1], np.int32)
+    visited = np.zeros_like(to_keep)
+    leaves = (np.nonzero(self.node_array[1,:] == 0)[0]).astype(np.int32)
+    self.prog_area_difference_aux(AD,parent,area,to_keep,visited,leaves)              
+    self.contractDR(to_keep>0)
+    return self
+

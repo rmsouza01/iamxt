@@ -205,3 +205,56 @@ void mms_t_aux_c(double t, int h1, int *nlevels, int h_level, int *level, int h2
    }
 
 
+    void area_difference_aux_c(int AD, int h1, int *parent,int h2, int *area,int h3,int *to_keep){
+       
+       for(int i = h1-1; i > 0; i--){
+          if (to_keep[i]!=0)
+             to_keep[parent[i]] = 1;
+          else {
+             if ((area[parent[i]] - area[i]) > AD){
+                to_keep[parent[i]] = 1;
+                to_keep[i] = 1;  
+                } 
+             }   
+          }
+       }
+
+
+
+
+    void prog_area_difference_aux_c(int AD, int h1, int *parent,int h2, int *area,int h3,
+                                    int *to_keep,int h4,int *visited,int h5,int *leaves){
+       
+       int last_anc,leaf, current_node,size,anc;
+       vector<int> ancestors;
+       
+       for(int i = 0; i < h5; i++){
+          leaf = leaves[i];
+          current_node = leaf;
+          //get ancestors
+          ancestors.push_back(current_node);
+          while(current_node!= 0){ //while not the root
+             current_node = parent[current_node];
+             ancestors.push_back(current_node);
+             }
+          last_anc = 0;
+          size = ancestors.size();
+          for(int j = size-1; j>=0; j--){
+             anc = ancestors[j];
+             if (visited[anc]!=0){
+                if (to_keep[anc]!=0)
+                   {last_anc = anc;}
+                }
+                else {
+                   visited[anc] = 1;
+                   if ((area[last_anc] - area[anc]) > AD){
+                      to_keep[anc] = 1;
+                      last_anc = anc;  
+                      }
+                   }
+             } 
+          ancestors.clear();
+          }   
+       }
+       
+
