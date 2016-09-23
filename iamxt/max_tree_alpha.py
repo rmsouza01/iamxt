@@ -8,7 +8,7 @@
 # Module max_tree_alpha
 
 from max_tree_alpha_methods import draw1DImageTree, vmax, hmax, computeHeight, computeVolume, computeStabilityMeasure,\
-                                   computeExtinctionValues, getSignature, extinctionFilter, mmsT, mmsMSER 
+                                   computeExtinctionValues, getSignature, extinctionFilter, mmsT, mmsMSER, areaDifference, progAreaDifference 
                                    
 
 from max_tree_alpha_aux import compute_height_aux_c, compute_volume_aux_c, compute_stability_measure_aux_c, \

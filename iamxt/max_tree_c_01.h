@@ -24,8 +24,4 @@ void computeNodeArray3d_c(int , int *,int , unsigned short *,
                           int **, int *, int *);
 
 
-void compute_area_c(int , int *, int , int *, int , int *);
 
-
-void direct_filter_c(double lamb, int , int *, int , int *,
- int , unsigned short*, int , unsigned short *, int , double * );

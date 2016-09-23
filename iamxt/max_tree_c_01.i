@@ -39,12 +39,6 @@ void computeNodeArray3d_c(int , int *,int , unsigned short *,
                           int , int * ,int , int , int , int *,
                           int **, int *, int *);
 
-
-void compute_area_c(int , int *, int , int *, int , int *);
-
-void direct_filter_c(double lamb, int , int *, int , int *,
- int , unsigned short *, int , unsigned short *, int , double * );
-
 %}
 
 %feature("autodoc", 1);
@@ -69,8 +63,4 @@ void computeNodeArray3d_c(int DIM1, int *INPLACE_ARRAY1,int DIM1, unsigned short
                           int DIM1, int *INPLACE_ARRAY1 ,int DIM1, int DIM2, int DIM3, int 
                           *INPLACE_ARRAY3, int **ARGOUT_ARRAY2, int *DIM1, int *DIM2);
 
-void compute_area_c(int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1);
-
-void direct_filter_c(double lamb, int DIM1, int *INPLACE_ARRAY1, int DIM1, int *INPLACE_ARRAY1,
- int DIM1, unsigned short *INPLACE_ARRAY1, int DIM1, unsigned short *INPLACE_ARRAY1, int DIM1, double *INPLACE_ARRAY1 );
 
