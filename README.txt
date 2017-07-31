@@ -7,6 +7,14 @@ Copyright (c) 2016, Roberto Souza and collaborators
 All rights reserved.
 
 
+
+**Important update**
+—————————————————————
+A simpler version of iamxt is now available at: https://github.com/rmsouza01/siamxt
+We recommend using it. It has the same syntax and the same features as iamxt (except for the drawing functions). Its main advantage is that it is much simpler to install. It only depends on NumPy. Also, it has a docker available: https://hub.docker.com/r/marianapbento/siamxt-1.0/
+ 
+
+
 Description
 -----------
 
